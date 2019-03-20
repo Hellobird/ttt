@@ -9,6 +9,8 @@
 <import src="/components/goodsconfirmModal.vue.wxml" />
 <import src="/components/goodsconfirmBanyun.vue.wxml" />
 <import src="/components/goodsShouhou.vue.wxml" />
+<import src="/components/common/adress.vue.wxml" />
+<import src="/components/common/precautions.vue.wxml" />
 
 <template name="747ac242-default-747ac242-1"><template data="{{...$root['0'], ...$root[$kk+'747ac242-0'],$root}}" is="70a530be"></template></template>
 
