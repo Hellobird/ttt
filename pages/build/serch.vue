@@ -1,20 +1,24 @@
 <template>
 	<div>
 		<div class="serch"><image src="../../static/index/serch.png" @click="req_goodslist"></image><input type="text" placeholder="寻找商品、店铺" v-model="name" confirm-type='search' @confirm='req_goodslist'/></div>
+		<nav> <span>销量</span><span>价格</span></nav>
 		<div class="section">
 			<div class="list">
 				<div v-for="(store,index) in list" :key='index'>
 					<image class="store_img" :src="static + store.picture" ></image>
 					<div class="inf">
 						<div class="storeinf">
-							<p>{{store.name}}</p>
-							<p>{{store.address}}</p>
+							<p>{{store.name ? store.name : "--"}}</p>
+							<p>地址: {{store.address}}</p>
 						</div>
 						<scroll-view class="goodslist" scroll-x>
 							<div @click="go_build_mallinf(goods.classId)" class="goodsinf"  v-for="(goods,childIndex) in store.storeGoods" :key='childIndex'>
 								<image class="goods_img" :src="static + goods.picture"></image>
-								<p class="goods_name">{{goods.name}}长度测试咯</p>
-								<p>¥{{goods.price}}起</p>
+								<div class="goods_intro">
+									<p>{{goods.name ? goods.name : "--"}}</p>
+									<p>月销{{goods.monthSell ? goods.monthSell : "  "}}笔</p>
+									<p style="color: #FEC300;">¥{{goods.price ? goods.price : "  "}}起</p>
+								</div>
 							</div>
 						</scroll-view>
 					</div>
@@ -46,6 +50,7 @@
 					url: "class/goods/list"
 				}).then(data=>{
 					this.list=data;
+					console.log(data)
 					if(!this.list.length){
 						ut.totast('暂无相关商品')
 					}
@@ -73,10 +78,7 @@
 		vertical-align: top;
 		color: #FEC300;
 	}
-	nav span:first-child{
-		margin-left: 81upx;
-		color: #5d5c5c;
-	}
+
 	.serch image{width: 26upx;height: 24upx;margin-left: 30upx;margin-right: 30upx;}
 	.serch input{
 		flex: 1;
@@ -98,51 +100,57 @@
 		display: flex;
 	}
 	.store_img{
-		width: 80upx;
-		height: 80upx;
-		margin-top: 20upx;
-		margin-right: 18upx;
+		width: 140upx;
+		height: 140upx;
+		margin-top: 10upx;
+		margin-right: 20upx;
+		border-radius: 5px;
+		background: #EFEFEF;
 	}
 
+	.inf{
+		width: 560upx;
+	}
 	.storeinf{
 		justify-content: center;
-		height: 120upx;
+		height: 160upx;
 		display: flex;
 		flex-direction: column;
 		border-bottom: 1px dashed #CCCCCC;
 	}
 	.storeinf p:first-child{
-		margin-bottom: 10upx;
-		font-size: 32upx;
-		font-weight: bold;
+		margin-bottom: 5upx;
+		font-size: 24upx;
 	}
 	
 	.goodslist{
-		width: 630upx;
 		overflow: hidden;
 		white-space: nowrap;
 		margin-top: 20upx;
 	}
 	
 	.goods_img{
-		width: 200upx;
-		height: 200upx;
-		margin-bottom: 10upx;
-		border-radius: 5px;
-		margin-right: 20upx;
+		width: 80upx;
+		height: 70upx;
+		background: #EFEFEF;
 	}
 	.goodslist .goodsinf{
-		display: inline-block;
+		height: 70upx;
+		width: 280upx;
+		display: inline-flex;
+		flex-direction: row;
 	}
-	.goodsinf p{
-		width: 200upx;
+	
+	.goods_intro {
+		height: 100%;
+		margin-left: 10upx;
+	}
+	.goods_intro p{
+		height: 33.3%;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
+		font-size: 16upx;
 	}
 	
-	.goods_name{
-		margin-bottom: 5upx;
-		font-size: 28upx;
-	}
 </style>
