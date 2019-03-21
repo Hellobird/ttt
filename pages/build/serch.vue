@@ -1,60 +1,26 @@
 <template>
 	<div>
 		<div class="serch"><image src="../../static/index/serch.png" @click="req_goodslist"></image><input type="text" placeholder="寻找商品、店铺" v-model="name" confirm-type='search' @confirm='req_goodslist'/></div>
-		<!-- <nav><span>筛选</span><span>销量</span><span>价格</span></nav> -->
-		<div class="fuwu leftright">
-			<div @click="go_build_mallinf(list.classId)" v-for="(list,index) in list" :key='index'>
-				<image :src="static +list.picture" class="noimage"></image>
-				<p>{{list.name}}：<span>¥{{list.price}}</span>起</p>
-			</div>
-		</div>
-	<!-- 	<div class="section">
+		<div class="section">
 			<div class="list">
-				<div>
-					<image src="../../static/build/tetant.png" ></image>
+				<div v-for="(store,index) in list" :key='index'>
+					<image class="store_img" :src="static + store.picture" ></image>
 					<div class="inf">
-						<div class="tetantinf">
-							<p>盛丰五金建材器铺</p>
-							<p>地址：通州区建材城二层</p>
+						<div class="storeinf">
+							<p>{{store.name}}</p>
+							<p>{{store.address}}</p>
 						</div>
-						<div class="mallinf leftright">
-							<div>
-								<image src="../../static/build/cailiao.png"></image>
-								<div>
-									<p>不锈钢字幕也</p>
-									<p>月销 300 笔</p>
-									<p class="color">￥39.00</p>
-								</div>
+						<scroll-view class="goodslist" scroll-x>
+							<div @click="go_build_mallinf(goods.classId)" class="goodsinf"  v-for="(goods,childIndex) in store.storeGoods" :key='childIndex'>
+								<image class="goods_img" :src="static + goods.picture"></image>
+								<p class="goods_name">{{goods.name}}长度测试咯</p>
+								<p>¥{{goods.price}}起</p>
 							</div>
-							<div>
-								<image src="../../static/build/cailiao.png"></image>
-								<div>
-									<p>不锈钢字幕也</p>
-									<p>月销 300 笔</p>
-									<p class="color">￥39.00</p>
-								</div>
-							</div>
-							<div>
-								<image src="../../static/build/cailiao.png"></image>
-								<div>
-									<p>不锈钢字幕也</p>
-									<p>月销 300 笔</p>
-									<p class="color">￥39.00</p>
-								</div>
-							</div>
-							<div>
-								<image src="../../static/build/cailiao.png"></image>
-								<div>
-									<p>不锈钢字幕也</p>
-									<p>月销 300 笔</p>
-									<p class="color">￥39.00</p>
-								</div>
-							</div>
-						</div>
+						</scroll-view>
 					</div>
 				</div>
 			</div>
-		</div> -->
+		</div>
 	</div>
 </template>
 
@@ -118,89 +84,65 @@
 	.section{display: flex;}
 	.section .list{
 		flex: 1;
-		padding: 0 30upx;
+		margin-left: 30upx;
 		display: flex;
 	}
 	.list{
 		display: flex;
 		flex-direction: column;
+		font-size: 24upx;
 	}
 	.list>div{
 		margin-bottom: 30upx;
 		flex-direction: row;
 		display: flex;
 	}
-	.list>div image{
-		width: 150upx;
-		height: 150upx;
-		border-radius: 10upx;
+	.store_img{
+		width: 80upx;
+		height: 80upx;
+		margin-top: 20upx;
 		margin-right: 18upx;
 	}
-	.list>div>div{
-		flex: 1;
-		font-size: 24upx;
-	}
-	.tetantinf{
+
+	.storeinf{
 		justify-content: center;
-		height: 150upx;
+		height: 120upx;
 		display: flex;
 		flex-direction: column;
 		border-bottom: 1px dashed #CCCCCC;
 	}
-	.tetantinf p:first-child{
-		margin-bottom: 20upx;
-	}
-	.leftright{
-		margin-top: 27upx;
-		display: flex;
-		justify-content: space-between;
-		flex-wrap: wrap;
-	}
-	.mallinf{
-		flex-direction: row;
-		font-size: 13upx;
-		display: flex;
-		margin-top: 34upx;
-	}
-	.mallinf>div{
-		width: 50%;
-		display: flex;
-		flex-direction: row;
-		margin-bottom: 34upx;
-	}
-	.mallinf>div image{
-		width: 72upx;
-		height: 65upx;
-		margin-right: 0;
-	}
-	.mallinf>div div{
-		margin-left: 10upx;
-	}
-	.mallinf>div div p:nth-child(2){
+	.storeinf p:first-child{
 		margin-bottom: 10upx;
-		margin-top: 10upx;
-	}
-	.mallinf .color{
-		color: #FEC300;
+		font-size: 32upx;
+		font-weight: bold;
 	}
 	
-	.leftright{
-		padding: 0 20upx;
-		margin-top: 27upx;
-		display: flex;
-		justify-content: space-between;
-		padding: 0 20upx;
-		flex-wrap: wrap;
+	.goodslist{
+		width: 630upx;
+		overflow: hidden;
+		white-space: nowrap;
+		margin-top: 20upx;
 	}
-	.fuwu div{
-		width: 326upx;
-		font-size: 22upx;
-		text-align: center;
-		line-height: 50upx;
-		margin-bottom: 30upx;
+	
+	.goods_img{
+		width: 200upx;
+		height: 200upx;
+		margin-bottom: 10upx;
+		border-radius: 5px;
+		margin-right: 20upx;
 	}
-	.fuwu div image{
-		width: 100%;
-		height: 300upx;
+	.goodslist .goodsinf{
+		display: inline-block;
+	}
+	.goodsinf p{
+		width: 200upx;
+		overflow: hidden;
+		white-space: nowrap;
+		text-overflow: ellipsis;
+	}
+	
+	.goods_name{
+		margin-bottom: 5upx;
+		font-size: 28upx;
 	}
 </style>
