@@ -40,6 +40,7 @@
 				</textarea>
 			</div>
 		</div>
+		<precautions type='2'></precautions>
 		<div class="apply" @click='req_remake'>
 			<div>立即预约</div>
 		</div>
@@ -49,6 +50,7 @@
 <script>
 	import ut from '../../utils/index.js';
 	import Adress from '../../components/common/adress.vue'
+	import precautions from '../../components/common/precautions.vue'
 	import {mapState} from 'vuex'
 	export default {
 		data() {
@@ -70,7 +72,8 @@
 			...mapState(['adress'])
 		},
 		components:{
-			Adress
+			Adress,
+			precautions
 		},
 		onLoad(opt) {
 			console.log(ut.date())
@@ -151,6 +154,10 @@
 				if (!this.time) {
 					ut.totast('请选择时间');
 					return;
+				}
+				if(!ut.timespace(this.date+' '+this.time)){
+					ut.totast('请选择两小时后');
+					return
 				}
 				if(this.type){
 					this.whole()
