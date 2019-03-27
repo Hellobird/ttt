@@ -28,7 +28,7 @@
 		</div>
 		<div class="content" :style="{height:contentHeight+'px'}">
 			<scroll-view class="left" scroll-y>
-				<div class="left_item" v-bind:class="{active:item.id == class_id}" v-for="item in typeList" :key='item.id' @click="scrollTo(item.offsetY)">
+				<div class="left_item" v-bind:class="{active:item.id == class_id}" v-for="item in typeList" :key='item.id' @click="checkClass(item)">
 					{{item.name}}
 				</div>
 			</scroll-view>
@@ -104,7 +104,8 @@
 				mallname: '',
 				mallname1: '',
 				goodsInf: '',
-				storePicture: ''
+				storePicture: '',
+				goods_id:''
 			}
 		},
 		components: {
@@ -127,6 +128,7 @@
 			this.storeid = opt.storeid;
 			this.req_storeclasslist()
 			this.storePicture = this.static + this.tenant.picture;
+			this.goods_id = opt.goodsId;
 		},
 		methods: {
 			scroll: function(e) {
@@ -138,6 +140,10 @@
 					// this.currentSelectID = parentId;
 					this.$set(this.$data, 'class_id', parentId);
 				}
+			},
+			checkClass: function(item) {
+				this.class_id = item.id;
+				this.scrollTo(item.offsetY)
 			},
 			scrollTo: function(offset) {
 				this.scrollTop = this.old.scrollTop
@@ -251,6 +257,7 @@
 					},
 					url: "goods/storeclasslist1"
 				}).then(data => {
+					console.log(data)
 					let goodsArray = [];
 					if (data) {
 						let currentY = 0;
@@ -265,10 +272,22 @@
 					}
 					this.typeList = data;
 					this.malllist = goodsArray;
+					// 判断外部传入的默认选中商品位置，
+					for(let i = 0; i < goodsArray.length; i++){
+						let goods = goodsArray[i];
+						if(goods.id == this.goods_id){
+							if(i == 0){
+								break;
+							}
+							this.goods_id = '';
+							let offsetY = i * uni.upx2px(180);
+							this.scrollTo(offsetY);
+							return;
+						}
+					}
 					if (data[0]) {
 						this.class_id = data[0].id;
 					}
-					console.log(data)
 				});
 			},
 			req_detail(id) {
@@ -319,6 +338,12 @@
 </script>
 
 <style>
+	/*隐藏滚动条*/
+	::-webkit-scrollbar {
+		width: 0;
+		height: 0;
+		color: transparent;
+	}
 	.container {
 		width: 100%;
 		height: 100%;
@@ -372,13 +397,6 @@
 		margin-left: 20upx;
 		display: flex;
 		flex-direction: column;
-	}
-
-	/*隐藏滚动条*/
-	::-webkit-scrollbar {
-		width: 0;
-		height: 0;
-		color: transparent;
 	}
 
 	/* 以下是以前的代碼樣式 */

@@ -68,6 +68,8 @@ ut.time = function(timestamp) {
 	return Y + M + D + " " + h + m;
 };
 ut.timespace = (time)=>{
+	// iOS需要把 - 替换成 / 才能正常解析
+	time = time.replace(/-/g,'/');
 	return (new Date(time).getTime()-new Date().getTime())>60*1000*60*2
 }
 ut.reloaadTime = 600;
