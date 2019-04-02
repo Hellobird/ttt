@@ -1,0 +1,338 @@
+<template>
+	<div>
+	  <div class="order-item-detail">
+		<div class="order-info">
+			<span class="order-num">订单编号：{{data.orderNumber}}</span>
+			<span class="order-status">{{data.statusName}}</span>
+		</div>
+		<div class="order-info">
+			<image class="goods-picture noimage" :src="static+data.picture"></image>
+			<div class="goods-info-wrap">
+				<div class="goods-info">
+					<p>店铺的名称</p>
+				</div>
+				<div class="goods-info">
+					<p>{{data.goodsName}}</p>
+					<p>¥ {{data.price}}</p>
+				</div>
+				<div class="goods-info">
+					<p>商家电话</p>
+				</div>
+				<div class="goods-info">
+					<p>商家地址</p>
+				</div>
+				<!-- <div class="goods-info">
+					<p>规格</p>
+					<p>{{data.serviceName}} </p>
+				</div> -->
+			</div>
+		</div>
+		<div class="goods-info">
+			<div class="order-time">下单时间：{{data.createTime}}</div>
+			<div class="order-time">合计:¥ {{data.price}}</div>
+		</div>
+		<div class="order-options-wrap">
+			<div class="order-options">
+				<button v-if="data.status < 4" @click="changeCancelModal(true)" class="order-button">取消订单</button>
+				<button v-if="data.status == 1" @click="goToPay(data.id)" class="order-button order-pay">立即支付</button>
+				<button v-if="data.status == 4" @click="changeConfirmModal(true)" class="order-button">确认报价</button>
+				<button v-if="data.status == 7" @click="changeOrderCheck(true)" class="order-button">验收付款</button>
+				<button v-if="data.status == 8 && !comment" @click="changeShouhouModal(true)" class="order-button">申请售后</button>
+				<button v-if="data.status == 8 && comment" @click="changeComment(true)" class="order-button">处理完成</button>
+				<!-- <button v-if="data.status == 10"  class="order-button order-pay">处理完成</button> -->
+			</div>
+		</div>
+	  </div>
+		
+		<t-modal :reason="reason"  :visibile="order_status_visibile" @changeVisible = "changeOrderStatusModal">
+			<order-status></order-status>
+		</t-modal>
+		
+		<t-modal  :visibile="cancel_order_visibile" @changeVisible = "changeCancelModal">
+			<cancel-modal cancelUrl="customze/store/order/cancelOrder" @reload="reloadData" :orderId="data.id" :reason="reason"></cancel-modal>
+		</t-modal>
+		
+		<t-modal  :visibile="confirm_order_visibile" @changeVisible = "changeConfirmModal">
+			<confirm-plan @reload="reloadData"  @changeb="changeCancelModal" :orderId="data.id" :confirmPlan='confirmPlan'></confirm-plan>
+		</t-modal>
+		
+		<t-modal  :visibile="confirm_ordercheck_visibile"    @changeVisible = "changeOrderCheck">
+			<order-check @reload="reloadData" :orderId="data.id" :confirmPlan='confirmPlan'></order-check>
+		</t-modal>
+		
+		<t-modal  :visibile="shou_order_visibile" @changeVisible = "changeShouhouModal">
+			<order-shouhou @reload="reloadData"   :orderId="data.id" :reason="afterSaleReason"></order-shouhou>
+		</t-modal>
+		
+		<t-modal  :visibile="show_comment" @changeVisible = "changeComment">
+			<addComment @reload="reloadData"   :orderId="data.id" type="2"></addComment>
+		</t-modal>
+	</div>
+</template>
+
+<script>
+import TModal from './tmodal.vue';
+import OrderStatus from './orderStatus.vue';
+import CancelModal from './cancelModal.vue';
+import ConfirmPlan from './customConfirmModal.vue';
+import orderCheck from './customOrderCheck.vue';
+import orderShouhou from './customOrderShouhou.vue';
+import addComment from './addComment.vue';
+import ut from '../utils/index.js';
+export default {
+  props: ["data","reload","type","comment"],
+  data() {
+	return {
+		order_status_visibile: false,
+		cancel_order_visibile: false,
+		confirm_order_visibile: false,
+		confirm_ordercheck_visibile:false,
+		shou_order_visibile: false,
+		show_comment: false,
+		static:ut.static,
+		reason: [],
+		confirmPlan:{},
+		afterSaleReason:[]
+	}  
+  },
+  components: {
+  	TModal,
+	OrderStatus,
+	CancelModal,
+	ConfirmPlan,
+	orderCheck,
+	orderShouhou,
+	addComment
+  },
+  methods: {
+		go_next() {
+			wx.navigateTo({
+				url: `../home/pay`
+			})
+		},
+		reloadData() {
+			this.$emit('reload');
+		},
+		goToPay(orderId) {
+			ut.request({
+				data: {
+					orderId: orderId
+				},
+				url: "customze/store/order/repayOrder"
+			}).then(data=>{
+				ut.pay(data,{
+					complete: (res)=> {
+						this.reloadData();
+					},
+					success: () => {
+						ut.totast("操作成功")
+					}
+				})
+				
+				console.log(data)
+			})
+		},
+		getConfirmPlan() {
+			ut.request({
+				data: {
+					orderId: this.data.id
+				},
+				method: 'get',
+				url: "customze/store/order/price"
+			}).then(data=>{
+				console.log(data)
+				this.confirmPlan=data;
+				//this.cancel_reason = data;
+			})
+		},
+		getReasonType() {
+			ut.request({
+				data: {
+					type: this.type
+				},
+				method: 'get',
+				url: "customze/store/order/cancelReason"
+			}).then(data=>{
+				this.reason = data;
+			})
+		},
+		changeOrderStatusModal(status) {
+			if(typeof status != 'undefined'){
+				this.order_status_visibile = status;
+			}
+		},
+		changeCancelModal(status) {
+			console.log(status)
+			if(status) {
+				this.getReasonType();
+			}
+			if(typeof status != 'undefined'){
+				this.cancel_order_visibile = status;
+			}
+		},
+		changeConfirmModal(status) {
+			if(status) {
+				this.getConfirmPlan()
+			}
+			if(typeof status != 'undefined'){
+				this.confirm_order_visibile = status;
+			}
+		},
+		changeOrderCheck(status) {
+			if(status) {
+				this.getConfirmPlan()
+			}
+			if(typeof status != 'undefined'){
+				this.confirm_ordercheck_visibile = status;
+			}
+		},
+		changeShouhouModal(status) {
+			if(status) {
+				this.getafterSaleReason()
+			}
+			if(typeof status != 'undefined'){
+				this.shou_order_visibile = status;
+			}
+		},
+		changeComment(status){
+			if(typeof status != 'undefined'){
+				this.show_comment = status;
+			}
+		},
+		getafterSaleReason() {
+			ut.request({
+				data: {
+					type: 1
+				},
+				url: "customze/store/order/afterSaleReason"
+			}).then(data=>{
+				this.afterSaleReason = data;
+			})
+		},
+  }
+}
+</script>
+
+<style>
+	.order-item-detail {
+		width: 100%;
+		box-sizing: border-box;
+		padding: 30upx;
+		border-bottom: 1px solid #e5e5e5;
+	}
+	.order-info {
+		display: flex;
+		flex-direction: row;
+		font-size: 24upx;
+		color: #0b0708;
+		margin-bottom: 30upx;
+	}
+	.order-num {
+		flex: 1;
+	}
+	.order-status {
+		text-align: right;
+		color: #fec200;
+	}
+	.goods-picture {
+		width: 200upx;
+		height: 152upx;
+	}
+	.goods-info-wrap {
+		flex: 1;
+		padding-left: 32upx;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+	.goods-info {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	.order-time {
+		font-size: 24upx;
+		color: #0b0708;
+		margin-bottom: 28upx;
+	}
+	.order-button {
+		width: 160upx;
+		height: 50upx;
+		background: #fec200;
+		text-align: center;
+		line-height: 50upx;
+		color: #fff;
+		font-size: 24upx;
+	}
+	.order-pay {
+		margin-left: 10px;
+	}
+	.order-options-wrap {
+		display: flex;
+		justify-content: flex-end;
+	}
+	.order-options {
+		display: flex;
+		flex-direction: row;
+	}
+	.border-collapse {
+		margin-right: 52upx;
+	}
+	.action-sheet {
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.3);
+		position: fixed;
+		top: 0upx;
+		left: 0upx;
+	}
+	.action-main-wrap {
+		width: 100%;
+		background: #fff;
+		position: absolute;
+		bottom: 0upx;
+		box-sizing: border-box;
+		padding: 30upx;
+	}
+	.action-main {
+		position: relative;
+	}
+	.order-status-wrap {
+		padding-top: 123upx;
+	}
+	.order-status-item {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		align-items: flex-start;
+		font-size: 18upx;
+		color: #0B0708;
+	}
+	.order-status-time {
+		width: 333upx;
+		height: 100%;
+		text-align: right;
+		box-sizing: border-box;
+		padding-right: 31upx;
+		
+	}
+	.order-status-icon {
+		width: 28upx;
+		height: 28upx;
+		position: relative;
+		top: 0upx;
+		left: 15upx;
+		z-index: 100;
+	}
+	.order-status-text {
+		flex: 1;
+		padding-bottom: 20upx;
+		white-space: pre-wrap;
+		padding-left: 58upx;
+		padding-right: 93upx;
+		border-left: 1px solid #fec200;
+	}
+	.order-status-last {
+		border-left: 0upx;
+	}
+</style>

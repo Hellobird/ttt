@@ -11,53 +11,44 @@
 				<goods-order-item :data="item" :reason="cancel_reason" :comment="comment" @reload="init"></goods-order-item>
 			</div>
 		</div>
-		<div v-else-if="order_list.length">
+		<div v-if="order_list.length">
 			<div v-for="(item, index) in order_list" :key="index">
 				<order-item :type="type" :data="item" :reason="cancel_reason" :comment="comment" @reload="init"></order-item>
 			</div>
 		</div>
-		<div v-else-if="custom_list.length">
-			<div v-for="(item, index) in custom_list" :key="index">
-				<custom-order-item :type="type" :data="item" :reason="cancel_reason" :comment="comment" @reload="init"></custom-order-item>
-			</div>
-		</div>
-		<div v-else class="nomall">
+		<div v-else  class="nomall">
 			暂无订单
 		</div>
 	</div>
 </template>
 
 <script>
-	import orderItem from '../../components/orderItem.vue'
+	import orderItem from '../../components/customOrderItem.vue'
 	import goodsOrderItem from '../../components/goodsOrderItem.vue'
-	import customOrderItem from '../../components/customOrderItem.vue'
 	import ut from '../../utils/index.js';
 	export default {
-		props: ['type', 'comment', 'show'],
+		props:['type','comment','show'],
 		components: {
-			orderItem,
-			goodsOrderItem,
-			customOrderItem
-		},
+            orderItem,
+			goodsOrderItem
+        },
 		data() {
 			return {
 				order_list: [],
 				cancel_reason: [],
-				goods_list: [],
-				custom_list: [] // 订制商品
+				goods_list:[]
 			}
 		},
-		watch: {
-			comment() {
-				console.log(1111111)
+		watch:{
+			type(){
 				this.init();
 			},
-			show() {
-				if (this.show && wx.getStorageSync('token')) {
+			show(){
+				if(this.show&&wx.getStorageSync('token')){
 					this.init();
-				} else {
-					this.order_list = []
-					this.goods_list = []
+				}else{
+					this.order_list=[]
+					this.goods_list=[]
 				}
 			}
 		},
@@ -78,17 +69,7 @@
 		},
 		methods: {
 			init() {
-				this.order_list = []
-				this.goods_list = []
-				this.custom_list = []
-				if (this.comment == 1) {
-					this.getOrderList();
-
-				} else if (this.comment == 2) {
-					this.getOrderList1();
-				} else {
-					this.getCustomOrderList();
-				}
+				this.getOrderList();
 			},
 			getOrderList() {
 				ut.request({
@@ -96,39 +77,10 @@
 						type: this.type
 					},
 					method: 'get',
-					url: "service/order/list"
-				}).then(data => {
+					url: "customze/store/order/list"
+				}).then(data=>{
 					console.log(data)
 					this.order_list = data;
-				})
-			},
-			getOrderList1() {
-				ut.request({
-					data: {
-						type: this.type
-					},
-					method: 'get',
-					url: "goods/order/goodsOrderList"
-				}).then(data => {
-					console.log(data)
-					data.forEach(item => {
-						item.orderGoods.forEach(item => {
-							if (item.picture) item.picture = item.picture.split(',')[0];
-						})
-					})
-					this.goods_list = data;
-				})
-			},
-			getCustomOrderList() {
-				ut.request({
-					data: {
-						type: this.type
-					},
-					method: 'get',
-					url: "customze/store/order/list"
-				}).then(data => {
-					console.log(data)
-					this.custom_list = data;
 				})
 			}
 		}
@@ -142,7 +94,6 @@
 		box-sizing: border-box;
 		padding: 30upx;
 	}
-
 	.order-tip-text {
 		font-size: 20upx;
 		color: #656565;
@@ -150,7 +101,6 @@
 		padding-left: 40upx;
 		position: relative;
 	}
-
 	.order-tip-text:before {
 		content: '';
 		display: inline-block;
@@ -163,8 +113,7 @@
 		left: 0upx;
 		margin-top: -8upx;
 	}
-
-	.nomall {
+	.nomall{
 		height: 300px;
 		line-height: 300px;
 		text-align: center;

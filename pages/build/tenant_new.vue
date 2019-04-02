@@ -33,7 +33,7 @@
 				</div>
 			</scroll-view>
 			<scroll-view class="right" scroll-y @scroll="scroll" :scroll-top="scrollTop">
-				<div @click="go_build_mallinf(item.id)" class="mall1inf" v-for="item in malllist" :key='item'>
+				<div @click="go_build_mallinf(item)" class="mall1inf" v-for="item in malllist" :key='item'>
 					<image :src="static+item.picture"></image>
 					<div>
 						<p>{{item.name}}</p>
@@ -41,8 +41,8 @@
 						<p class='add'>
 							<div class='addedit'>
 								<image src="../../static/build/minus.png" v-if="item.mallnum"></image><span v-if="item.mallnum">{{item.mallnum}}</span>
-								<image src="../../static/build/add.png"></image>
-							</div><span>￥{{item.price}}</span>
+								<image v-if="item.type == 1" src="../../static/build/add.png"></image>
+							</div><span>￥{{item.type == 1 ? item.price : item.makePrice}}</span>
 						</p>
 					</div>
 				</div>
@@ -105,7 +105,7 @@
 				mallname1: '',
 				goodsInf: '',
 				storePicture: '',
-				goods_id:''
+				goods_id: ''
 			}
 		},
 		components: {
@@ -158,11 +158,28 @@
 				this.goodsInf = ''
 				this.pop = !this.pop;
 			},
-			go_build_mallinf(id) {
+			go_build_mallinf(goods) {
 				/* wx.navigateTo({
 					url: `../build/mallinf?_id=${id}`
 				}) */
-				this.req_detail(id)
+				if (goods.type == 1) { // 普通商品
+					this.req_detail(goods.id)
+				} else { // 定制商品
+					wx.navigateTo({
+						url: `../build/custominf?_id=${goods.id}&&title=${goods.name}`
+					})
+					// 不清楚详情什么样，这里先直接跳到确认订单
+// 					wx.setStorageSync('custominf',goods)
+// 					if(wx.getStorageSync('token')){
+// 						wx.navigateTo({
+// 							url: '../build/custom_pay'
+// 						})
+// 					}else{
+// 						wx.navigateTo({
+// 							url: '../mine/login'
+// 						})
+// 					}
+				}
 			},
 			minus(_index, index) {
 				const goods = this.goods;
@@ -273,10 +290,10 @@
 					this.typeList = data;
 					this.malllist = goodsArray;
 					// 判断外部传入的默认选中商品位置，
-					for(let i = 0; i < goodsArray.length; i++){
+					for (let i = 0; i < goodsArray.length; i++) {
 						let goods = goodsArray[i];
-						if(goods.id == this.goods_id){
-							if(i == 0){
+						if (goods.id == this.goods_id) {
+							if (i == 0) {
 								break;
 							}
 							this.goods_id = '';
@@ -344,6 +361,7 @@
 		height: 0;
 		color: transparent;
 	}
+
 	.container {
 		width: 100%;
 		height: 100%;

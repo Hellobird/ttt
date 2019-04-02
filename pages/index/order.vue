@@ -14,7 +14,8 @@
 				<scroll-view scroll-y='true'>
 					<CheckOrder v-if="leftActive===0" :type="active+1" :show='show'></CheckOrder>
 					<BuildingGoods v-if="leftActive===1" :type="active+1" :show='show'></BuildingGoods>
-					<OrderComment v-if="leftActive===2" type="4" :comment="active+1" :show='show'></OrderComment>
+					<CustomGoods v-if="leftActive===2" :type="active+1" :show='show'></CustomGoods>
+					<OrderComment v-if="leftActive===3" type="1" :comment="active+1" :show='show'></OrderComment>
 				</scroll-view>
 
 			</div>
@@ -109,12 +110,14 @@
 	import BuildingGoods from '../../components/order/buildingGoods.vue'
 	import CheckOrder from '../../components/order/checkOrder.vue'
 	import OrderComment from '../../components/order/orderComment.vue'
+	import CustomGoods from '../../components/order/customGoods.vue'
 	import ut from '../../utils/index.js';
 	export default {
 		components: {
 			BuildingGoods,
 			CheckOrder,
-			OrderComment
+			OrderComment,
+			CustomGoods
 		},
 		data() {
 			return {
@@ -149,17 +152,32 @@
 						count: 0
 					}],
 					[{
+						title: '查看订单详情',
+						count: 0
+					}, {
+						title: '价格确认支付',
+						count: 0
+					}, {
+						title: '质量验收付款',
+						count: 0
+					}, {
+						title: '商品售后退换',
+						count: 0
+					}],
+					[{
 						title: '技术服务订单',
 						count: 0
 					}, {
 						title: '建材商品订单',
 						count: 0
+					}, {
+						title: '订制商品订单'
 					}]
 				],
 				orderTypeCount: [
 
 				],
-				orderLeft: ['技术服务类', '建材商品类', '综合订单类'],
+				orderLeft: ['技术服务类', '建材商品类','订制商品类', '综合订单类'],
 				show: true
 			}
 		},
@@ -226,8 +244,8 @@
 					types[1][1].count = data.goodsAcceptancePaymentNumber;
 					types[1][2].count = data.goodsHandlingNegotiatedPriceNumber;
 					types[1][3].count = data.goodsAfterSaleRefundNumber;
-					types[2][0].count = data.comprehensiveServiceNumber;
-					types[2][1].count = data.comprehensiveGoodsNumber;
+					types[3][0].count = data.comprehensiveServiceNumber;
+					types[3][1].count = data.comprehensiveGoodsNumber;
 					this.orderTypes = types;
 					this.orderType = types[this.leftActive];
 				})
@@ -289,6 +307,7 @@
 	.order-left div {
 		margin-top: 26rpx;
 		font-size: 30rpx;
+		line-height: 30rpx;
 		width: 30rpx;
 		padding: 26rpx;
 		background: #f3f3f3;
@@ -367,6 +386,8 @@
 		position: absolute;
 		width: 30upx;
 		height: 30upx;
+		line-height: 30upx;
+		text-align: center;
 		top: 10upx;
 		color: white;
 		margin-left: 15upx;
