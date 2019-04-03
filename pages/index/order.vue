@@ -244,8 +244,13 @@
 					types[1][1].count = data.goodsAcceptancePaymentNumber;
 					types[1][2].count = data.goodsHandlingNegotiatedPriceNumber;
 					types[1][3].count = data.goodsAfterSaleRefundNumber;
+					types[2][0].count = data.customzedDetailNumber;
+					types[2][1].count = data.customzedConfirmPriceNumber;
+					types[2][2].count = data.customzedQualityAcceptancePaymentNumber;
+					types[2][3].count = data.customzedAfterSalesNumber;
 					types[3][0].count = data.comprehensiveServiceNumber;
 					types[3][1].count = data.comprehensiveGoodsNumber;
+					types[3][2].count = data.comprehensiveCustomzedNumber;
 					this.orderTypes = types;
 					this.orderType = types[this.leftActive];
 				})

@@ -12,7 +12,7 @@
 					</div>
 					<div class="cancel-radio-wrap" v-if="confirmPlan.taxRate != 0">
 						<span class="cancel-radio"></span>
-						<span class="cancel-label">税率 ¥{{confirmPlan.taxRate}}</span>
+						<span class="cancel-label">税率 {{confirmPlan.taxRate}}</span>
 					</div>
 					<div class="cancel-radio-wrap" v-if="confirmPlan.storeDiscount != -1">
 						<span class="cancel-radio"></span>
@@ -164,7 +164,7 @@ export default {
 		border-bottom: 1px solid #ededed;
 	}
 	.popheight{
-		height: 600upx;
+		height: 800upx;
 	}
 	.noborder {
 		margin-top: 30upx;

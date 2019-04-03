@@ -12,7 +12,7 @@
 					</div>
 					<div class="cancel-radio-wrap" v-if="confirmPlan.taxRate != 0">
 						<span class="cancel-radio"></span>
-						<span class="cancel-label">税率 ¥{{confirmPlan.taxRate}}</span>
+						<span class="cancel-label">税率 {{confirmPlan.taxRate}}</span>
 					</div>
 					<div class="cancel-radio-wrap" v-if="confirmPlan.storeDiscount != -1">
 						<span class="cancel-radio"></span>

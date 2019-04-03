@@ -9,7 +9,7 @@
 			<image class="goods-picture noimage" :src="static+data.picture"></image>
 			<div class="goods-info-wrap">
 				<div class="goods-info">
-					<p>店铺的名称</p>
+					<p>{{data.storeName}}</p>
 				</div>
 				<div class="goods-info">
 					<p>{{data.goodsName}}</p>
@@ -17,9 +17,11 @@
 				</div>
 				<div class="goods-info">
 					<p>商家电话</p>
+					<p>{{data.storePhone}}</p>
 				</div>
 				<div class="goods-info">
 					<p>商家地址</p>
+					<p style="width: 60%;">{{data.storeAddress}}</p>
 				</div>
 				<!-- <div class="goods-info">
 					<p>规格</p>
@@ -37,8 +39,11 @@
 				<button v-if="data.status == 1" @click="goToPay(data.id)" class="order-button order-pay">立即支付</button>
 				<button v-if="data.status == 4" @click="changeConfirmModal(true)" class="order-button">确认报价</button>
 				<button v-if="data.status == 7" @click="changeOrderCheck(true)" class="order-button">验收付款</button>
-				<button v-if="data.status == 8 && !comment" @click="changeShouhouModal(true)" class="order-button">申请售后</button>
-				<button v-if="data.status == 8 && comment" @click="changeComment(true)" class="order-button">处理完成</button>
+				<button v-if="data.status == 8" v-bind:disabled="data.showClwc"
+				 @click="changeShouhouModal(true)" class="order-button">申请售后</button>
+				<button v-if="data.status == 8" v-bind:disabled="!data.showClwc"
+				 @click="changeComment(true)" class="order-button">处理完成</button>
+				 <button v-if="data.status == 8 && comment" @click="changeComment(true)" class="order-button">评价</button>
 				<!-- <button v-if="data.status == 10"  class="order-button order-pay">处理完成</button> -->
 			</div>
 		</div>
@@ -334,5 +339,16 @@ export default {
 	}
 	.order-status-last {
 		border-left: 0upx;
+	}
+
+	.order-options button{
+		margin-left: 10upx;
+	}
+	.order-options button.disabled{
+		background: #999999;
+		color: #FFFFFF;
+	}
+	t-modal{
+		margin-left: 29upx;
 	}
 </style>
