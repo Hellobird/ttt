@@ -49,16 +49,17 @@
 		},
 		watch: {
 			comment() {
-				console.log(1111111)
 				this.init();
 			},
 			show() {
 				if (this.show && wx.getStorageSync('token')) {
 					this.init();
-				} else {
-					this.order_list = []
-					this.goods_list = []
 				}
+// 				 else {
+// 					this.order_list = [];
+// 					this.goods_list = [];
+// 					this.custom_list = [];
+// 				}
 			}
 		},
 		onLoad(option) {
@@ -78,12 +79,17 @@
 		},
 		methods: {
 			init() {
-				this.order_list = []
-				this.goods_list = []
-				this.custom_list = []
+				if(this.comment != 1){
+					this.order_list = [];
+				}
+				if(this.comment != 2){
+					this.goods_list = [];
+				}
+				if(this.comment != 3){
+					this.custom_list = [];
+				}
 				if (this.comment == 1) {
 					this.getOrderList();
-
 				} else if (this.comment == 2) {
 					this.getOrderList1();
 				} else {
@@ -99,6 +105,10 @@
 					url: "service/order/list"
 				}).then(data => {
 					console.log(data)
+					// 如果返回结果与当前列表相同，则不处理
+					if(JSON.stringify(this.order_list) == JSON.stringify(data)){
+						return;
+					}
 					this.order_list = data;
 				})
 			},
@@ -116,6 +126,10 @@
 							if (item.picture) item.picture = item.picture.split(',')[0];
 						})
 					})
+					// 如果返回结果与当前列表相同，则不处理
+					if(JSON.stringify(this.goods_list) == JSON.stringify(data)){
+						return;
+					}
 					this.goods_list = data;
 				})
 			},
@@ -128,6 +142,10 @@
 					url: "customze/store/order/list"
 				}).then(data => {
 					console.log(data)
+					// 如果返回结果与当前列表相同，则不处理
+					if(JSON.stringify(this.custom_list) == JSON.stringify(data)){
+						return;
+					}
 					this.custom_list = data;
 				})
 			}

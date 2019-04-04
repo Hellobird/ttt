@@ -53,18 +53,6 @@
 			}
 		},
 		onLoad(option) {
-			/* this.comment=option.comment
-			let barTitle = "查看订单";
-			if(this.type == 1) {
-				barTitle = "查看订单";
-			}else if(this.type == 2) {
-				barTitle = "确认施工方案和价格";
-			}else if(this.type == 3) {
-				barTitle = "质量验收及付尾款";
-			}
-			wx.setNavigationBarTitle({
-			  title: barTitle
-			}) */
 			this.init();
 		},
 		methods: {

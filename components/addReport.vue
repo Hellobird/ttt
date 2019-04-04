@@ -3,84 +3,47 @@
 		<scroll-view class="popheight" scroll-y="true">
 			<div class="cancel-order-condition">
 				<div class="cancel-order-title">
-					<span>商户评分</span>
-					<div class="stars-wrapper">
-						<div class="star" v-for="n in 5" @click="change_rate(n)" :key="n" :class="{'on':rate>n}" />
-					</div>
-					<span>{{rateString[rate]}}</span>
+					{{title ? title : "投诉"}}
 				</div>
-
-				<div class="check-group">
-					<div class="check-item" @click="change_check(index)" v-for="(item,index) in checkArray" :key="index" :class="{'checked': item.checked}">
-						{{item.title}}
+				<div class="cancel-order-check-wrap">
+					<div v-for="(item,index) in reason" :key="index" :class="chooseData==item.id ? 'cancel-order-checked':'cancel-order-check-group'"
+					 @click="choose(item.id)">
+						<div class="check-box"></div>
+						<div class="check-label">{{item.context}}</div>
 					</div>
 				</div>
-				<textarea v-model="detail" class="cancel-order-des" placeholder="评价"></textarea>
+				<textarea v-model="detail" class="cancel-order-des" placeholder="详情说明"></textarea>
 				<div class="addimg">
 					<image src="/static/addimg.png" @click="uploadimg"></image>
 					<image :src="static+list" @click="uploadimg" v-for="(list,index) in pictures" :key='index'></image>
 				</div>
+				<div class="phone"><span>联系电话</span><input type="number" v-model="phone" maxlength="11" /></div>
 			</div>
 		</scroll-view>
-		<!-- <div class="cancel-order-status">
-			<div class="cancel-order-title">
-			取消订单声明
-			</div>
-			<div class="cancel-statement-wrap">
-				<div class="cancel-radio-wrap">
-					<span class="cancel-radio"></span>
-					<span class="cancel-label">不需要了</span>
-				</div>
-			</div>
-		</div> -->
-		<button class="cancel-button" @click="sub">提交评价</button>
+		<button class="cancel-button" @click="sub">提交</button>
 	</div>
 </template>
 
 <script>
 	import ut from '../utils/index.js';
-
 	export default {
-		props: ["reason", "orderId", "reload", "changeVisibileModal", "cancelUrl", "flag", "goodsId", "type", "goodsSpec"],
+		props: ["title", "reason", "orderId", "reload", "changeVisibileModal", "cancelUrl", "flag", "goodsId"],
 		data() {
 			return {
 				chooseData: null,
 				detail: '',
-				rate: 5,
 				pictures: [],
 				static: ut.static,
-				phone: '',
-				rateString: ['', '非常差', '很差', '一般', '很好', '非常好'],
-				checkArray: [{
-					title: '服务态度好',
-					checked: false
-				}, {
-					title: '材料齐全',
-					checked: false
-				}, {
-					title: '信誉度高',
-					checked: false
-				}, {
-					title: '服务态度好',
-					checked: false
-				}, {
-					title: '服务态度好',
-					checked: false
-				}, {
-					title: '服务态度好',
-					checked: false
-				}]
+				phone: ''
 			}
 		},
 		methods: {
 			choose(data) {
 				this.chooseData = data;
 			},
-			addcomment() {
-				let pictures = '',
-					hasPicture = 2;
+			requestReport() {
+				let pictures = '';
 				this.pictures.forEach(item => {
-					hasPicture = 1
 					if (pictures) {
 						pictures += ',' + item
 					} else {
@@ -88,38 +51,45 @@
 					}
 
 				})
-				const userinf = wx.getStorageSync('userinf')
-				ut.request({
-					data: {
-						"account": userinf.nickname || userinf.name,
-						"content": this.detail,
-						"hasPicture": hasPicture, //是否有图 1有 2无
-						"photo": userinf.photo,
-						"pictures": pictures,
-						"type": this.type, //1商品2服务
-						"review": "2", //是否为追评 1是 2否
-						"proId": this.orderId //订单id
-					},
-					url: 'comment/add',
-					c: true
-				}).then(data => {
-					this.$parent.changeVisibileModal(false)
-					this.$emit('reload');
-					ut.totast("评价成功")
-				})
+				let url = 'goods/order/afterExchangeGoods';
+				if (this.flag == 2) {
+					url = 'goods/order/afterReturnGoods';
+				}
+// 				ut.request({
+// 					data: {
+// 						orderId: this.orderId,
+// 						reasonId: this.chooseData,
+// 						detail: this.detail,
+// 						phone: this.phone,
+// 						pictures: pictures,
+// 						goodsId: this.goodsId
+// 					},
+// 					url: url
+// 				}).then(data => {
+// 					this.$parent.changeVisibileModal(false)
+// 					this.$emit('reload');
+// 					ut.totast("申请成功")
+// 				})
 			},
 			sub() {
-				if (!this.detail) {
-					ut.totast("请输入评价")
+				if (!this.chooseData) {
+					ut.totast("请选择投诉原因")
 					return;
 				}
-				this.addcomment();
+				if (!this.detail) {
+					ut.totast("请输入详情")
+					return;
+				}
+				if (!ut.checkmobile(this.phone)) {
+					ut.totast("请输入正确的手机号")
+					return;
+				}
+				this.requestReport();
 			},
 			uploadimg() {
 				ut.uploadimg({
 					callback: res => {
 						this.req_uploadimg(res);
-
 					}
 				})
 			},
@@ -146,14 +116,6 @@
 						}
 					}
 				})
-			},
-			change_rate(rate) {
-				this.rate = rate;
-			},
-			change_check(index){
-				let item = this.checkArray[index];
-				item.checked = !item.checked;
-				this.checkArray = this.checkArray;
 			}
 		}
 	}
@@ -215,13 +177,6 @@
 
 	.cancel-order-title {
 		padding-bottom: 30upx;
-		display: flex;
-		margin-top: 50upx;
-		flex-direction: row;
-	}
-
-	.cancel-order-title span {
-		line-height: 38upx;
 	}
 
 	.cancel-order-condition {
@@ -305,56 +260,5 @@
 		color: #fff;
 		border-radius: 0upx;
 		font-size: 24upx;
-	}
-
-	.stars-wrapper {
-		display: flex;
-		flex-direction: row;
-		padding-left: 30upx;
-		padding-right: 30upx;
-	}
-
-	.star {
-		display: inline-block;
-		width: 38upx;
-		height: 38upx;
-		background-image: url('../static/allOrder/star_gray.png');
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
-		margin-right: 30upx;
-	}
-
-	.stars-wrapper .on {
-		background-image: url('../static/allOrder/star_light.png');
-	}
-
-	.icon {
-		width: 1em;
-		height: 1em;
-		vertical-align: -0.15em;
-		fill: currentColor;
-		overflow: hidden;
-	}
-
-	.check-group {
-		display: flex;
-		flex-direction: row;
-		flex-wrap: wrap;
-	}
-
-	.check-item {
-		width: 150upx;
-		height: 50upx;
-		margin: 20upx 40upx;
-		background: #999999;
-		text-align: center;
-		line-height: 50upx;
-		border-radius: 6upx;
-		color: #fff;
-		font-size: 24upx;
-	}
-	
-	.check-group .checked{
-		background: #fec200;
 	}
 </style>
