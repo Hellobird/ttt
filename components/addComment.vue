@@ -2,14 +2,36 @@
 	<div class="cancel-order-modal">
 		<scroll-view class="popheight" scroll-y="true">
 			<div class="cancel-order-condition">
-				<div class="cancel-order-title">
+				<div class="cancel-order-title" v-if="type == 1 || type == 3">
 					<span>商户评分</span>
 					<div class="stars-wrapper">
-						<div class="star" v-for="n in 5" @click="change_rate(n)" :key="n" :class="{'on':rate>n}" />
+						<div class="star" v-for="n in 5" @click="storeStar = n" :key="n" :class="{'on':storeStar>n}" />
 					</div>
-					<span>{{rateString[rate]}}</span>
+					<span>{{rateString[storeStar]}}</span>
 				</div>
 
+				<div class="cancel-order-title" v-if="type ==2">
+					<span>工匠评分</span>
+					<div class="stars-wrapper">
+						<div class="star" v-for="n in 5" @click="craftsmanStar = n" :key="n" :class="{'on':craftsmanStar>n}" />
+					</div>
+					<span>{{rateString[craftsmanStar]}}</span>
+				</div>
+				
+				<div class="cancel-order-title" v-if="type == 1">
+					<span>搬运评分</span>
+					<div class="stars-wrapper">
+						<div class="star" v-for="n in 5" @click="carryStar = n" :key="n" :class="{'on':carryStar>n}" />
+					</div>
+					<span>{{rateString[carryStar]}}</span>
+				</div>
+				<div class="cancel-order-title" v-if="type == 1">
+					<span>速递评分</span>
+					<div class="stars-wrapper">
+						<div class="star" v-for="n in 5" @click="expressStar = n" :key="n" :class="{'on':expressStar>n}" />
+					</div>
+					<span>{{rateString[expressStar]}}</span>
+				</div>
 				<div class="check-group">
 					<div class="check-item" @click="change_check(index)" v-for="(item,index) in checkArray" :key="index" :class="{'checked': item.checked}">
 						{{item.title}}
@@ -41,12 +63,15 @@
 	import ut from '../utils/index.js';
 
 	export default {
-		props: ["reason", "orderId", "reload", "changeVisibileModal", "cancelUrl", "flag", "goodsId", "type", "goodsSpec"],
+		props: ["reason", "orderId", "reload", "changeVisibileModal", "type"],
 		data() {
 			return {
 				chooseData: null,
 				detail: '',
-				rate: 5,
+				storeStar: 5,
+				craftsmanStar: 5,
+				carryStar: 5,
+				expressStar: 5,
 				pictures: [],
 				static: ut.static,
 				phone: '',
@@ -88,6 +113,12 @@
 					}
 
 				})
+				let append = "";
+				for (let item of this.checkArray) {
+					if (item.checked) {
+						append += item.title + ",";
+					}
+				}
 				const userinf = wx.getStorageSync('userinf')
 				ut.request({
 					data: {
@@ -96,9 +127,15 @@
 						"hasPicture": hasPicture, //是否有图 1有 2无
 						"photo": userinf.photo,
 						"pictures": pictures,
-						"type": this.type, //1商品2服务
+						"type": this.type, //1商品2服务3定制
 						"review": "2", //是否为追评 1是 2否
-						"proId": this.orderId //订单id
+						"orderId": this.orderId, //订单id
+						"starType": this.starType, // 星级类型，1-商户 2-工匠 3-搬运 4-速递
+						storeStar: this.storeStar,
+						craftsmanStar: this.craftsmanStar,
+						carryStar: this.carryStar,
+						expressStar: this.expressStar,
+						"commentBox": append, // 选项
 					},
 					url: 'comment/add',
 					c: true
@@ -150,7 +187,7 @@
 			change_rate(rate) {
 				this.rate = rate;
 			},
-			change_check(index){
+			change_check(index) {
 				let item = this.checkArray[index];
 				item.checked = !item.checked;
 				this.checkArray = this.checkArray;
@@ -216,7 +253,6 @@
 	.cancel-order-title {
 		padding-bottom: 30upx;
 		display: flex;
-		margin-top: 50upx;
 		flex-direction: row;
 	}
 
@@ -226,6 +262,7 @@
 
 	.cancel-order-condition {
 		padding-bottom: 30upx;
+		padding-top: 50upx;
 		border-bottom: 1px solid #ededed;
 	}
 
@@ -353,8 +390,8 @@
 		color: #fff;
 		font-size: 24upx;
 	}
-	
-	.check-group .checked{
+
+	.check-group .checked {
 		background: #fec200;
 	}
 </style>

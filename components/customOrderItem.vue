@@ -39,10 +39,9 @@
 					<button v-if="data.status == 1" @click="goToPay(data.id)" class="order-button order-pay">立即支付</button>
 					<button v-if="data.status == 4" @click="changeConfirmModal(true)" class="order-button">确认报价</button>
 					<button v-if="data.status == 7" @click="changeOrderCheck(true)" class="order-button">验收付款</button>
-					<button v-if="data.status == 8 && !comment" v-bind:disabled="data.showClwc" @click="changeShouhouModal(true)"
-					 class="order-button">申请售后</button>
+					<button v-if="data.status == 8 && !comment" v-bind:disabled="data.showClwc" @click="changeShouhouModal(true)" class="order-button">申请售后</button>
 					<button v-if="data.status == 8 && !comment" v-bind:disabled="!data.showClwc" @click="changeComment(true)" class="order-button">处理完成</button>
-					<button v-if="data.status == 8 && comment" @click="changeReport(true)" class="order-button">投诉商铺</button>
+					<button v-if="data.status == 8 && comment" @click="changeReport(true, 2)" class="order-button">投诉商户</button>
 					<button v-if="data.status == 8 && comment" @click="changeComment(true)" class="order-button">评价</button>
 				</div>
 			</div>
@@ -69,11 +68,11 @@
 		</t-modal>
 
 		<t-modal :visibile="show_comment" @changeVisible="changeComment">
-			<addComment @reload="reloadData" :orderId="data.id" type="2"></addComment>
+			<addComment @reload="reloadData" :orderId="data.id" type="3"></addComment>
 		</t-modal>
 
 		<t-modal :visibile="show_report" @changeVisible="changeReport">
-			<addReport title="投诉商铺" :reason="reportReason" @reload="reloadData" :orderId="data.id" type="2"></addReport>
+			<addReport :reason="reportReason" @reload="reloadData" :orderId="data.id" :type="reportType"></addReport>
 		</t-modal>
 	</div>
 </template>
@@ -103,7 +102,8 @@
 				reason: [],
 				confirmPlan: {},
 				afterSaleReason: [],
-				reportReason:[]
+				reportReason:[],
+				reportType: 0,
 			}
 		},
 		components: {
@@ -211,11 +211,6 @@
 					this.show_comment = status;
 				}
 			},
-			changeReport(status) {
-				if(typeof status != 'undefined'){
-					this.show_report = status;
-				}
-			},
 			getafterSaleReason() {
 				ut.request({
 					data: {
@@ -226,6 +221,26 @@
 					this.afterSaleReason = data;
 				})
 			},
+			changeReport(status, type) {
+				if(status){
+					this.reportType = type;
+					this.reportReason = [];
+					this.getReportReason(type);
+				}
+				if(typeof status != 'undefined'){
+					this.show_report = status;
+				}
+			},
+			getReportReason(type) {
+				ut.request({
+					data: {
+						type: type
+					},
+					url: "complaint/typelist"
+				}).then(data => {
+					this.reportReason = data;
+				})
+			}
 		}
 	}
 </script>
@@ -281,7 +296,7 @@
 	}
 
 	.order-button {
-		width: 160upx;
+		width: 140upx;
 		height: 50upx;
 		background: #fec200;
 		text-align: center;
@@ -383,7 +398,4 @@
 		color: #FFFFFF;
 	}
 
-	t-modal {
-		margin-left: 29upx;
-	}
 </style>

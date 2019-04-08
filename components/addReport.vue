@@ -6,8 +6,8 @@
 					{{title ? title : "投诉"}}
 				</div>
 				<div class="cancel-order-check-wrap">
-					<div v-for="(item,index) in reason" :key="index" :class="chooseData==item.id ? 'cancel-order-checked':'cancel-order-check-group'"
-					 @click="choose(item.id)">
+					<div v-for="(item,index) in reason" :key="index" :class="chooseIndex==index ? 'cancel-order-checked':'cancel-order-check-group'"
+					 @click="choose(index)">
 						<div class="check-box"></div>
 						<div class="check-label">{{item.context}}</div>
 					</div>
@@ -27,19 +27,20 @@
 <script>
 	import ut from '../utils/index.js';
 	export default {
-		props: ["title", "reason", "orderId", "reload", "changeVisibileModal", "cancelUrl", "flag", "goodsId"],
+		props: ["type", "reason", "orderId", "reload", "changeVisibileModal"],
 		data() {
 			return {
-				chooseData: null,
+				chooseIndex: -1,
 				detail: '',
 				pictures: [],
 				static: ut.static,
-				phone: ''
+				phone: '',
+				title: '投诉',
 			}
 		},
 		methods: {
 			choose(data) {
-				this.chooseData = data;
+				this.chooseIndex = data;
 			},
 			requestReport() {
 				let pictures = '';
@@ -51,28 +52,24 @@
 					}
 
 				})
-				let url = 'goods/order/afterExchangeGoods';
-				if (this.flag == 2) {
-					url = 'goods/order/afterReturnGoods';
-				}
-// 				ut.request({
-// 					data: {
-// 						orderId: this.orderId,
-// 						reasonId: this.chooseData,
-// 						detail: this.detail,
-// 						phone: this.phone,
-// 						pictures: pictures,
-// 						goodsId: this.goodsId
-// 					},
-// 					url: url
-// 				}).then(data => {
-// 					this.$parent.changeVisibileModal(false)
-// 					this.$emit('reload');
-// 					ut.totast("申请成功")
-// 				})
+				ut.request({
+					data: {
+						orderId: this.orderId,
+						reason: this.reason[this.chooseIndex].context,
+						detail: this.detail,
+						phone: this.phone,
+						pictures: pictures,
+						type: this.type,
+					},
+					url: "complaint/add"
+				}).then(data => {
+					this.$parent.changeVisibileModal(false)
+					this.$emit('reload');
+					ut.totast("申请成功")
+				})
 			},
 			sub() {
-				if (!this.chooseData) {
+				if (this.chooseIndex < 0) {
 					ut.totast("请选择投诉原因")
 					return;
 				}
