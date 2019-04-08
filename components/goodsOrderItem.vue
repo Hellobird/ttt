@@ -37,6 +37,7 @@
 			<div class="order-options-wrap">
 				<div class="order-options">
 					<button v-if="data.status <= 8" @click="changeCancelModal(true)" class="order-button">取消订单</button>
+					<button v-if="type == 1" @click="changeStatus(true)" class="order-button">订单状态</button>
 					<button v-if="data.status == 9" @click="changeConfirmModal(true)" class="order-button">配送议价</button>
 					<button v-if="data.status == 10" @click="yanshousudi()" class="order-button">验收速递</button>
 					<button v-if="data.status == 14" @click="changeBanyunModal(true)" class="order-button">确认搬运议价</button>
@@ -80,6 +81,11 @@
 		<t-modal :visibile="show_report" @changeVisible="changeReport">
 			<addReport :reason="reportReason" @reload="reloadData" :orderId="data.id" :type="reportType"></addReport>
 		</t-modal>
+		
+		<t-modal :visibile="show_status" @changeVisible="changeStatus">
+			<orderStatus type="1" @reload="reloadData" :orderId="data.id">
+			</orderStatus>
+		</t-modal>
 	</div>
 </template>
 
@@ -94,8 +100,10 @@
 	import addComment from './addComment.vue';
 	import addReport from './addReport.vue'
 	import ut from '../utils/index.js';
+	import orderStatus from './orderStatus.vue';
+	
 	export default {
-		props: ["data", "reason", "reload", 'comment'],
+		props: ["data", "reason", "reload", 'comment', "type"],
 		data() {
 			return {
 				static: ut.static,
@@ -106,6 +114,7 @@
 				confirm_banyun: false,
 				show_comment: false,
 				show_report:false,
+				show_status: false,
 				confirmPlanlist: {},
 				banyunplan: [],
 				afterSaleReason: [],
@@ -123,7 +132,8 @@
 			goodsBanyun,
 			goodsShouhou,
 			addComment,
-			addReport
+			addReport,
+			orderStatus
 		},
 		methods: {
 			go_next() {
@@ -258,6 +268,11 @@
 				}).then(data => {
 					this.reportReason = data;
 				})
+			},
+			changeStatus(status) {
+				if (typeof status != 'undefined') {
+					this.show_status = status;
+				}
 			}
 		}
 	}

@@ -36,10 +36,12 @@
 			<div class="order-options-wrap">
 				<div class="order-options">
 					<button v-if="data.status < 4" @click="changeCancelModal(true)" class="order-button">取消订单</button>
+					<button v-if="type == 1" @click="changeStatus(true)" class="order-button">订单状态</button>
 					<button v-if="data.status == 1" @click="goToPay(data.id)" class="order-button order-pay">立即支付</button>
 					<button v-if="data.status == 4" @click="changeConfirmModal(true)" class="order-button">确认报价</button>
 					<button v-if="data.status == 7" @click="changeOrderCheck(true)" class="order-button">验收付款</button>
-					<button v-if="data.status == 8 && !comment" v-bind:disabled="data.showClwc" @click="changeShouhouModal(true)" class="order-button">申请售后</button>
+					<button v-if="data.status == 8 && !comment" v-bind:disabled="data.showClwc" @click="changeShouhouModal(true)"
+					 class="order-button">申请售后</button>
 					<button v-if="data.status == 8 && !comment" v-bind:disabled="!data.showClwc" @click="changeComment(true)" class="order-button">处理完成</button>
 					<button v-if="data.status == 8 && comment" @click="changeReport(true, 2)" class="order-button">投诉商户</button>
 					<button v-if="data.status == 8 && comment" @click="changeComment(true)" class="order-button">评价</button>
@@ -74,6 +76,11 @@
 		<t-modal :visibile="show_report" @changeVisible="changeReport">
 			<addReport :reason="reportReason" @reload="reloadData" :orderId="data.id" :type="reportType"></addReport>
 		</t-modal>
+
+		<t-modal :visibile="show_status" @changeVisible="changeStatus">
+			<orderStatus type="3" @reload="reloadData" :orderId="data.id">
+			</orderStatus>
+		</t-modal>
 	</div>
 </template>
 
@@ -85,7 +92,9 @@
 	import orderCheck from './customOrderCheck.vue';
 	import orderShouhou from './customOrderShouhou.vue';
 	import addComment from './addComment.vue';
-	import addReport from './addReport.vue'
+	import addReport from './addReport.vue';
+	import orderStatus from './orderStatus.vue';
+
 	import ut from '../utils/index.js';
 	export default {
 		props: ["data", "reload", "type", "comment"],
@@ -97,12 +106,13 @@
 				confirm_ordercheck_visibile: false,
 				shou_order_visibile: false,
 				show_comment: false,
-				show_report:false,
+				show_report: false,
+				show_status: false,
 				static: ut.static,
 				reason: [],
 				confirmPlan: {},
 				afterSaleReason: [],
-				reportReason:[],
+				reportReason: [],
 				reportType: 0,
 			}
 		},
@@ -114,7 +124,8 @@
 			orderCheck,
 			orderShouhou,
 			addComment,
-			addReport
+			addReport,
+			orderStatus
 		},
 		methods: {
 			go_next() {
@@ -222,12 +233,12 @@
 				})
 			},
 			changeReport(status, type) {
-				if(status){
+				if (status) {
 					this.reportType = type;
 					this.reportReason = [];
 					this.getReportReason(type);
 				}
-				if(typeof status != 'undefined'){
+				if (typeof status != 'undefined') {
 					this.show_report = status;
 				}
 			},
@@ -240,6 +251,11 @@
 				}).then(data => {
 					this.reportReason = data;
 				})
+			},
+			changeStatus(status) {
+				if (typeof status != 'undefined') {
+					this.show_status = status;
+				}
 			}
 		}
 	}
@@ -296,8 +312,9 @@
 	}
 
 	.order-button {
-		width: 140upx;
+		width: 130upx;
 		height: 50upx;
+		padding: 0upx;
 		background: #fec200;
 		text-align: center;
 		line-height: 50upx;
@@ -393,9 +410,8 @@
 		margin-left: 10upx;
 	}
 
-	.order-options button.disabled {
+	.order-options button[disabled] {
 		background: #999999;
 		color: #FFFFFF;
 	}
-
 </style>

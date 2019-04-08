@@ -25,6 +25,7 @@
 			<div class="order-options-wrap">
 				<div class="order-options">
 					<button v-if="data.status == 1" @click="changeCancelModal(true)" class="order-button">取消订单</button>
+					<button v-if="type == 1" @click="changeStatus(true)" class="order-button">订单状态</button>
 					<button v-if="data.status == 1" @click="goToPay(data.id)" class="order-button order-pay">立即支付</button>
 					<button v-if="data.status == 5" @click="changeConfirmModal(true)" class="order-button">确认方案</button>
 					<button v-if="data.status == 8" @click="changeOrderCheck(true)" class="order-button">验收付款</button>
@@ -63,6 +64,11 @@
 		<t-modal :visibile="show_report" @changeVisible="changeReport">
 			<addReport :reason="reportReason" @reload="reloadData" :orderId="data.id" :type="reportType"></addReport>
 		</t-modal>
+		
+		<t-modal :visibile="show_status" @changeVisible="changeStatus">
+			<orderStatus type="2" @reload="reloadData" :orderId="data.id">
+			</orderStatus>
+		</t-modal>
 	</div>
 </template>
 
@@ -75,6 +81,7 @@
 	import orderShouhou from './orderShouhou.vue';
 	import addComment from './addComment.vue';
 	import addReport from './addReport.vue'
+	import orderStatus from './orderStatus.vue';
 	import ut from '../utils/index.js';
 	export default {
 		props: ["data", "reload", "type", "comment"],
@@ -87,6 +94,7 @@
 				shou_order_visibile: false,
 				show_comment: false,
 				show_report: false,
+				show_status: false,
 				static: ut.static,
 				reason: [],
 				confirmPlanlist: [],
@@ -103,7 +111,8 @@
 			orderCheck,
 			orderShouhou,
 			addComment,
-			addReport
+			addReport,
+			orderStatus
 		},
 		methods: {
 			go_next() {
@@ -229,6 +238,11 @@
 				}).then(data => {
 					this.reportReason = data;
 				})
+			},
+			changeStatus(status) {
+				if (typeof status != 'undefined') {
+					this.show_status = status;
+				}
 			}
 		}
 	}

@@ -46,9 +46,6 @@
 			show(){
 				if(this.show&&wx.getStorageSync('token')){
 					this.init();
-				}else{
-					this.order_list=[]
-					this.goods_list=[]
 				}
 			}
 		},
@@ -67,7 +64,10 @@
 					method: 'get',
 					url: "customze/store/order/list"
 				}).then(data=>{
-					console.log(data)
+					// 数据相等时不处理
+					if(JSON.stringify(data) == JSON.stringify(this.order_list)){
+						return;
+					}
 					this.order_list = data;
 				})
 			}

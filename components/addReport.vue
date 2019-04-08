@@ -61,7 +61,8 @@
 						pictures: pictures,
 						type: this.type,
 					},
-					url: "complaint/add"
+					url: "complaint/add",
+					c: true
 				}).then(data => {
 					this.$parent.changeVisibileModal(false)
 					this.$emit('reload');

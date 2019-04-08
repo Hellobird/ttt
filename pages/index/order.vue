@@ -15,7 +15,7 @@
 					<CheckOrder v-if="leftActive===0" :type="active+1" :show='show'></CheckOrder>
 					<BuildingGoods v-if="leftActive===1" :type="active+1" :show='show'></BuildingGoods>
 					<CustomGoods v-if="leftActive===2" :type="active+1" :show='show'></CustomGoods>
-					<OrderComment v-if="leftActive===3" type="1" :comment="active+1" :show='show'></OrderComment>
+					<OrderComment v-if="leftActive===3" type="4" :comment="active+1" :show='show'></OrderComment>
 				</scroll-view>
 
 			</div>
