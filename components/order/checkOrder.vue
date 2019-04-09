@@ -42,13 +42,12 @@
 		watch:{
 			type(){
 				this.init();
+				this.order_list=[]
+				this.goods_list=[]
 			},
 			show(){
 				if(this.show&&wx.getStorageSync('token')){
 					this.init();
-				}else{
-					this.order_list=[]
-					this.goods_list=[]
 				}
 			}
 		},
@@ -101,6 +100,10 @@
 							if(item.picture)item.picture=item.picture.split(',')[0];
 						})
 					})
+					// 返回数据与当前数据相同，不处理
+					if(JSON.stringify(data) == JSON.stringify(this.goods_list)){
+						return;
+					}
 					this.goods_list = data;
 				})
 			}

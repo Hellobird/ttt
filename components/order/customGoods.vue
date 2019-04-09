@@ -41,6 +41,8 @@
 		},
 		watch:{
 			type(){
+				this.order_list = [];
+				this.goods_list = [];
 				this.init();
 			},
 			show(){
