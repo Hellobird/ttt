@@ -42,7 +42,7 @@
 					<button v-if="data.status == 7" @click="changeOrderCheck(true)" class="order-button">验收付款</button>
 					<button v-if="data.status == 8 && !comment" v-bind:disabled="data.showClwc" @click="changeShouhouModal(true)"
 					 class="order-button">申请售后</button>
-					<button v-if="data.status == 8 && !comment" v-bind:disabled="!data.showClwc" @click="changeComment(true)" class="order-button">处理完成</button>
+					<button v-if="data.status == 8 && !comment" v-bind:disabled="!data.showClwc" @click="requestComplete" class="order-button">处理完成</button>
 					<button v-if="data.status == 8 && comment" @click="changeReport(true, 2)" class="order-button">投诉商户</button>
 					<button v-if="data.status == 8 && comment" @click="changeComment(true)" class="order-button">评价</button>
 				</div>
@@ -256,6 +256,25 @@
 				if (typeof status != 'undefined') {
 					this.show_status = status;
 				}
+			},
+			requestComplete() {
+				let that = this;
+				wx.showModal({
+					title: '提示',
+					content: '是否确认售后已处理完成',
+					success(res) {
+						if (res.confirm) {
+							ut.request({
+								url: `customze/store/order/completeAfterSale?orderId=${that.data.id}`
+							}).then(data => {
+								ut.totast("操作成功")
+								that.reloadData();
+							})
+						} else if (res.cancel) {
+						}
+					}
+				})
+				
 			}
 		}
 	}

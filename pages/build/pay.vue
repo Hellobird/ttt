@@ -127,15 +127,16 @@
 			});
 			console.log(this.buildinf)
 			wx.setStorageSync('buildinf','');
-			this.req_vehiclelist();
-			this.req_carrylist();
-			this.req_getdefaddress();
 			this.buildinf.forEach(item=>{
 				this.mallprice=(item.price*item.num.toFixed(2)+Number(this.mallprice)).toFixed(2);
 				item.goodsSpecId=item.specId?item.specId:item.id;
 				item.goodsNumber=item.num;
 				item.name =item.goodsSpecName?item.goodsSpecName:item.name
 			})
+			this.req_vehiclelist();
+			this.req_carrylist();
+			this.req_getdefaddress();
+			
 		},
 		methods: {
 			cg_requireCarry(type){
@@ -224,8 +225,12 @@
 				})
 			},
 			req_vehiclelist(){
+				let specIds = "";
+				for(let goods of this.buildinf){
+					specIds += goods.goodsSpecId + ",";
+				}
 				ut.request({
-					url: "order/vehiclelist"
+					url: `order/vehiclelist?specIds=${specIds}`
 				}).then(data=>{
 					this.vehiclelist=data;
 					this.sendprice=this.vehiclelist[0].startPrice;
