@@ -6,20 +6,20 @@
 				<span class="unread" v-if="item.count > 0">{{item.count}}</span>
 			</div>
 		</div>
-		<div class="orderInf">
-			<div class="order-left">
-				<div :class="leftActive==index?'active':''" v-for="(item,index) in orderLeft" :key="item" @click="cg_leftActive(index)">{{item}}</div>
-			</div>
-			<div class="order-right">
-				<scroll-view scroll-y='true'>
-					<CheckOrder v-if="leftActive===0" :type="active+1" :show='show'></CheckOrder>
-					<BuildingGoods v-if="leftActive===1" :type="active+1" :show='show'></BuildingGoods>
-					<CustomGoods v-if="leftActive===2" :type="active+1" :show='show'></CustomGoods>
-					<OrderComment v-if="leftActive===3" type="4" :comment="active+1" :show='show'></OrderComment>
-				</scroll-view>
 
-			</div>
+		<div class="order-left">
+			<div :class="leftActive==index?'active':''" v-for="(item,index) in orderLeft" :key="item" @click="cg_leftActive(index)">{{item}}</div>
 		</div>
+		<div class="order-right">
+			<!-- <scroll-view scroll-y='true'> -->
+			<CheckOrder v-if="leftActive===0" :type="active+1" :show='show'></CheckOrder>
+			<BuildingGoods v-if="leftActive===1" :type="active+1" :show='show'></BuildingGoods>
+			<CustomGoods v-if="leftActive===2" :type="active+1" :show='show'></CustomGoods>
+			<OrderComment v-if="leftActive===3" type="4" :comment="active+1" :show='show'></OrderComment>
+			<!-- </scroll-view> -->
+
+		</div>
+
 		<!-- <div class='userinf'>
 			<h1>技术服务类</h1>
 			<div class='server'>
@@ -177,7 +177,7 @@
 				orderTypeCount: [
 
 				],
-				orderLeft: ['技术服务类', '建材商品类','订制商品类', '综合订单类'],
+				orderLeft: ['技术服务类', '建材商品类', '订制商品类', '综合订单类'],
 				show: true
 			}
 		},
@@ -234,7 +234,7 @@
 					data: {},
 					method: 'get',
 					url: "order/count/"
-				}).then(data=>{
+				}).then(data => {
 					let types = this.orderTypes;
 					types[0][0].count = data.serviceDetailNumber;
 					types[0][1].count = data.serviceConfirmPriceNumber;
@@ -280,6 +280,12 @@
 		display: flex;
 		justify-content: center;
 		padding: 0 30rpx;
+		position: fixed;
+		top: 0upx;
+		width: 100%;
+		height: 100upx;
+		background: #FFFFFF;
+		z-index: 999;
 	}
 
 	.orderType div {
@@ -308,6 +314,12 @@
 		top: 140rpx;
 		width: 100%;
 	}
+	
+	.order-left{
+		position: fixed;
+		left: 0upx;
+		top: 130upx;
+	}
 
 	.order-left div {
 		margin-top: 26rpx;
@@ -324,8 +336,10 @@
 	}
 
 	.order-right {
+		margin-top: 120upx;
 		flex: 1;
-		margin-left: 29rpx;
+		margin-left: 100upx;
+		height: 100%;
 		background: #F3F3F3;
 	}
 

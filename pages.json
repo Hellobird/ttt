@@ -16,8 +16,7 @@
 		{
 			"path": "pages/index/order",
 			"style": {
-				"navigationBarTitleText": "订单",
-				"disableScroll": true
+				"navigationBarTitleText": "订单"
 			}
 		},
 		{
