@@ -42,9 +42,9 @@
 					<button v-if="data.status == 10" @click="yanshousudi()" class="order-button">验收速递</button>
 					<button v-if="data.status == 14" @click="changeBanyunModal(true)" class="order-button">确认搬运议价</button>
 					<button v-if="data.status == 15" @click="yanshoubanyun()" class="order-button">验收搬运</button>
-					<button v-if="data.status != 17 && comment" @click="changeReport(true, 4)" class="order-button">投诉搬运</button>
-					<button v-if="data.status != 17 && comment" @click="changeReport(true, 3)" class="order-button">投诉速递</button>
-					<button v-if="data.status != 17 && comment" @click="changeReport(true, 2)" class="order-button">投诉商户</button>
+					<button v-if="data.status == 17 && comment" @click="changeReport(true, 4)" class="order-button">投诉搬运</button>
+					<button v-if="data.status == 17 && comment" @click="changeReport(true, 3)" class="order-button">投诉速递</button>
+					<button v-if="data.status == 17 && comment" @click="changeReport(true, 2)" class="order-button">投诉商户</button>
 					<button v-if="data.status == 17 && comment" @click="changeComment(true)" class="order-button">评价</button>
 				</div>
 			</div>
@@ -152,6 +152,7 @@
 					method: 'get',
 					url: "goods/order/expressPrice"
 				}).then(data => {
+					console.log(data)
 					this.confirmPlanlist = data || {};
 				})
 			},
@@ -219,6 +220,7 @@
 					method: 'get',
 					url: "goods/order/carryPrice"
 				}).then(data => {
+					console.log(data)
 					this.banyunplan = data || [];
 					//this.cancel_reason = data;
 				})

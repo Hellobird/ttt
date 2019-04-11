@@ -139,6 +139,7 @@
 						proId:id,
 						type:1
 					},
+					method:"GET",
 					url: "comment/list"
 				}).then(data=>{
 					this.comlist=data;

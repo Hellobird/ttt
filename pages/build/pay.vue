@@ -225,12 +225,17 @@
 				})
 			},
 			req_vehiclelist(){
-				let specIds = "";
+				let specArray = [];
 				for(let goods of this.buildinf){
-					specIds += goods.goodsSpecId + ",";
+					specArray.push({
+						specId:goods.goodsSpecId,
+						number:goods.num
+					})
 				}
 				ut.request({
-					url: `order/vehiclelist?specIds=${specIds}`
+					data:specArray,
+					url: 'order/vehiclelist',
+					c:true
 				}).then(data=>{
 					this.vehiclelist=data;
 					this.sendprice=this.vehiclelist[0].startPrice;

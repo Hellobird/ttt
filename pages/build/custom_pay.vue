@@ -39,7 +39,7 @@
 				<textarea v-model="remark" placeholder="请描述"></textarea>
 			</div>
 		</div>
-		<precautions type='2'></precautions>
+		<precautions type='3'></precautions>
 		<div class="apply" @click='req_unifiedOrder'>
 			<div>确认支付</div>
 		</div>
