@@ -72,7 +72,7 @@
 			</div>
 		</div>
 		<div v-if="goodsInf" class="pop">
-			<GoodsInf :goodsInf='goodsInf' @onClose='onClose'></GoodsInf>
+			<GoodsInf :goodsInf='goodsInf' :comlist='comlist' @onClose='onClose'></GoodsInf>
 		</div>
 	</div>
 </template>
@@ -105,7 +105,8 @@
 				mallname1: '',
 				goodsInf: '',
 				storePicture: '',
-				goods_id: ''
+				goods_id: '',
+				comlist:[]
 			}
 		},
 		components: {
@@ -164,6 +165,7 @@
 				}) */
 				if (goods.type == 1) { // 普通商品
 					this.req_detail(goods.id)
+					this.req_comment(goods.id)
 				} else { // 定制商品
 					wx.navigateTo({
 						url: `../build/custominf?_id=${goods.id}&&title=${goods.name}`
@@ -349,6 +351,21 @@
 			},
 			onClose() {
 				this.goodsInf = ''
+			},
+			req_comment(id){
+				ut.request({
+					data: {
+						proId:id,
+						type:1
+					},
+					method:"GET",
+					url: "comment/list"
+				}).then(data=>{
+					data.forEach(item=>{
+						item.pictures =item.pictures.split(',')
+					})
+					this.comlist=data;
+				})
 			}
 		}
 	}

@@ -137,12 +137,15 @@
 				ut.request({
 					data: {
 						proId:id,
-						type:1
+						type:2
 					},
 					method:"GET",
 					url: "comment/list"
 				}).then(data=>{
-					this.comlist=data;
+					data.forEach(item=>{
+						item.pictures =item.pictures.split(',')
+					})
+					this.comlist=data
 				})
 			}
 		}
