@@ -8,7 +8,7 @@
 		</div>
 		<div v-if="order_list.length>0">
 			<div v-for="(item, index) in order_list" :key="index">
-				<goods-order-item :data="item" :reason="cancel_reason" @reload="init" :type="type"></goods-order-item>
+				<goods-order-item :data="item" :reason="cancel_reason" @reload="refresh" :type="type"></goods-order-item>
 			</div>
 		</div>
 		<div v-else  class="nomall">
@@ -21,7 +21,7 @@
 	import goodsOrderItem from '../../components/goodsOrderItem.vue'
 	import ut from '../../utils/index.js';
 	export default {
-		props:['type','token','show'],
+		props:['type','token','show','refreshStatus'],
 		components: {
             goodsOrderItem
         },
@@ -64,6 +64,10 @@
 				if(this.type == 1) {
 					this.getReasonType();
 				}
+			},
+			refresh(){
+				this.getOrderList();
+				this.$emit('refreshStatus');
 			},
 			getOrderList() {
 				ut.request({

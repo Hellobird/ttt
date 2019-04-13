@@ -12,9 +12,9 @@
 		</div>
 		<div class="order-right">
 			<!-- <scroll-view scroll-y='true'> -->
-			<CheckOrder v-if="leftActive===0" :type="active+1" :show='show'></CheckOrder>
-			<BuildingGoods v-if="leftActive===1" :type="active+1" :show='show'></BuildingGoods>
-			<CustomGoods v-if="leftActive===2" :type="active+1" :show='show'></CustomGoods>
+			<CheckOrder v-if="leftActive===0" :type="active+1" :show='show' @refreshStatus='req_order_count'></CheckOrder>
+			<BuildingGoods v-if="leftActive===1" :type="active+1" :show='show'  @refreshStatus='req_order_count'></BuildingGoods>
+			<CustomGoods v-if="leftActive===2" :type="active+1" :show='show'  @refreshStatus='req_order_count'></CustomGoods>
 			<OrderComment v-if="leftActive===3" type="4" :comment="active+1" :show='show'></OrderComment>
 			<!-- </scroll-view> -->
 
@@ -201,11 +201,13 @@
 				this.leftActive = ''
 				this.active = index
 				this.leftActive = leftActive
+				this.req_order_count()
 			},
 			cg_leftActive(index) {
 				this.active = 0
 				this.leftActive = index
 				this.orderType = this.orderTypes[index]
+				this.req_order_count()
 			},
 			go_next(data) {
 				console.log(data);

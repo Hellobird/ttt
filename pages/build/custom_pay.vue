@@ -13,7 +13,7 @@
 			<h1>预约时间</h1>
 			<p>
 				<view>
-					<picker mode="date" value="日期" :custom-item="customItem" :start="start" :end="end" class='regionpicker' v-if="!disabled" @change="dateChange">
+					<picker mode="date" :start="start" :end="end" class='regionpicker' v-if="!disabled" @change="dateChange">
 						<view class="picker">
 							日期
 						</view>
@@ -22,7 +22,7 @@
 					<view v-else><span>{{y}}</span><span>年</span><span>{{m}}</span><span>月</span><span>{{d}}</span><span>日</span></view>
 				</view>
 				<view>
-					<picker mode="time" value="时间" :custom-item="customItem" class='regionpicker' v-if="!disabled" @change="timeChange">
+					<picker mode="time" :value="startTime" :start="startTime" end="23:59" class='regionpicker' v-if="!disabled" @change="timeChange">
 						<view class="picker">
 							时间
 						</view>
@@ -63,7 +63,8 @@
 				d: '',
 				remark:'',
 				start:ut.date(),
-				end:ut.enddate()
+				end:ut.enddate(),
+				startTime:'00:00'
 			}
 		},
 		computed: {
@@ -141,6 +142,13 @@
 				this.y = date[0];
 				this.m = date[1];
 				this.d = date[2];
+				if(this.date == ut.date()){
+					this.startTime = ut.startTime();
+				} else {
+					this.startTime = '00:00';
+				}
+				console.log(this.startTime)
+				
 			}
 		}
 	}

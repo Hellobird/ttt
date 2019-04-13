@@ -8,12 +8,12 @@
 		</div>
 		<div v-if="goods_list.length">
 			<div v-for="(item, index) in goods_list" :key="index">
-				<goods-order-item :data="item" :reason="cancel_reason" :comment="comment" @reload="init"></goods-order-item>
+				<goods-order-item :data="item" :reason="cancel_reason" :comment="comment" @reload="refresh"></goods-order-item>
 			</div>
 		</div>
 		<div v-if="order_list.length">
 			<div v-for="(item, index) in order_list" :key="index">
-				<order-item :type="type" :data="item" :reason="cancel_reason" :comment="comment" @reload="init"></order-item>
+				<order-item :type="type" :data="item" :reason="cancel_reason" :comment="comment" @reload="refresh"></order-item>
 			</div>
 		</div>
 		<div v-else  class="nomall">
@@ -27,7 +27,7 @@
 	import goodsOrderItem from '../../components/goodsOrderItem.vue'
 	import ut from '../../utils/index.js';
 	export default {
-		props:['type','comment','show'],
+		props:['type','comment','show','refreshStatus'],
 		components: {
             orderItem,
 			goodsOrderItem
@@ -57,6 +57,10 @@
 		methods: {
 			init() {
 				this.getOrderList();
+			},
+			refresh(){
+				this.getOrderList();
+				this.$emit('refreshStatus');
 			},
 			getOrderList() {
 				ut.request({
