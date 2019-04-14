@@ -30,18 +30,19 @@
 					<span class="cancel-label">工匠自行打折 {{craftsmanDiscount}}</span>
 				</div>
 			</div>
-			<div class="cancel-statement-wrap">
-				<div class="cancel-radio-wrap">
-					<span class="cancel-radio"></span>
-					<span class="cancel-label">预约金 ¥-{{makePrice}}</span>
-				</div>
-			</div>
 			<div class="cancel-statement-wrap" v-if="totalPrice > 0">
 				<div class="cancel-radio-wrap">
 					<span class="cancel-radio"></span>
 					<span class="cancel-label">合计 ¥{{totalPrice}}</span>
 				</div>
 			</div>
+			<div class="cancel-statement-wrap">
+				<div class="cancel-radio-wrap">
+					<span class="cancel-radio"></span>
+					<span class="cancel-label">预约金 ¥-{{makePrice}}</span>
+				</div>
+			</div>
+			
 		</scroll-view>
 		<div class="cancel-plan-wrap">
 			<button class="cancel-plan" @click="cancel_confirm">放弃维修</button>
@@ -59,9 +60,9 @@
 		props: ["orderId", "reload", "changeVisibileModal", "confirmPlanlist"],
 		data() {
 			return {
-				taxRate: 0,
-				craftsmanDiscount: -1,
-				mudouDiscount: -1,
+				taxRate: 1,
+				craftsmanDiscount: 10,
+				mudouDiscount: 10,
 				makePrice:0,
 				totalPrice:0
 			}

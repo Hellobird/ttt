@@ -3,12 +3,12 @@
 		<div>
 			<span>用户名</span><input type="text" placeholder="请输入用户名" v-model="userinf.username" maxlength="16"/>
 		</div>
-		<div>
+	<!-- 	<div>
 			<span>姓名</span><input type="text" placeholder="请输入真实姓名" v-model="userinf.name"/>
 		</div>
 		<div>
 			<span>身份证</span><input type="idcard" placeholder="请输入身份证号" v-model="userinf.idCard" maxlength="18"/>
-		</div>
+		</div> -->
 		<div>
 			<span>手机号</span><input type="number" placeholder="请输入手机号" v-model="userinf.phone" maxlength="11"/>
 		</div>
@@ -83,22 +83,22 @@
 					ut.totast('用户名为4到16位数字英文组成');
 					return;
 				}
-				if(!this.userinf.name){
-					ut.totast('请输入姓名');
-					return;
-				}
-				if(!ut.checkName(this.userinf.name)){
-					ut.totast('请输入正确的姓名');
-					return;
-				}
-				if(!this.userinf.idCard){
-					ut.totast('请输入身份证号');
-					return;
-				}
-				if(!ut.checkCard(this.userinf.idCard)){
-					ut.totast('请输入正确的身份证号');
-					return;
-				}
+// 				if(!this.userinf.name){
+// 					ut.totast('请输入姓名');
+// 					return;
+// 				}
+// 				if(!ut.checkName(this.userinf.name)){
+// 					ut.totast('请输入正确的姓名');
+// 					return;
+// 				}
+// 				if(!this.userinf.idCard){
+// 					ut.totast('请输入身份证号');
+// 					return;
+// 				}
+// 				if(!ut.checkCard(this.userinf.idCard)){
+// 					ut.totast('请输入正确的身份证号');
+// 					return;
+// 				}
 				if(!ut.checkmobile(this.userinf.phone)){
 					ut.totast('请输入正确的手机号');
 					return;

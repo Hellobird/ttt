@@ -29,7 +29,9 @@
 					<button v-if="data.status == 1" @click="goToPay(data.id)" class="order-button order-pay">立即支付</button>
 					<button v-if="data.status == 5" @click="changeConfirmModal(true)" class="order-button">确认方案</button>
 					<button v-if="data.status == 8" @click="changeOrderCheck(true)" class="order-button">验收付款</button>
-					<button v-if="data.status == 10 && !comment" @click="changeShouhouModal(true)" class="order-button">申请售后</button>
+					<button v-if="data.status == 10 && !comment" v-bind:disabled="data.afterSaleStatus != 1" @click="changeShouhouModal(true)" class="order-button">申请售后</button>
+					<button v-if="data.status == 10 && !comment" v-bind:disabled="data.afterSaleStatus != 3"  @click="requestComplete" class="order-button">处理完成</button>
+					
 					<button v-if="data.status == 10 && comment" @click="changeReport(true, 1)" class="order-button">投诉商户</button>
 					<button v-if="data.status == 10 && comment" @click="changeComment(true)" class="order-button">评价</button>
 					<!-- <button v-if="data.status == 10"  class="order-button order-pay">处理完成</button> -->
@@ -243,6 +245,25 @@
 				if (typeof status != 'undefined') {
 					this.show_status = status;
 				}
+			},
+			requestComplete() {
+				let that = this;
+				wx.showModal({
+					title: '提示',
+					content: '是否确认售后已处理完成',
+					success(res) {
+						if (res.confirm) {
+							ut.request({
+								url: `service/order/completeAfterSale?orderId=${that.data.id}`
+							}).then(data => {
+								ut.totast("操作成功")
+								that.reloadData();
+							})
+						} else if (res.cancel) {
+						}
+					}
+				})
+				
 			}
 		}
 	}
@@ -299,7 +320,8 @@
 	}
 
 	.order-button {
-		width: 160upx;
+		min-width: 120upx;
+		padding: 0 5upx;
 		height: 50upx;
 		background: #fec200;
 		text-align: center;

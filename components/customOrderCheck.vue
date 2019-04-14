@@ -10,15 +10,15 @@
 						<span class="cancel-radio"></span>
 						<span class="cancel-label">{{item.name+' '+item.price+item.unit+' '+'x'+item.number}}</span>
 					</div>
-					<div class="cancel-radio-wrap" v-if="confirmPlan.taxRate != 0">
+					<div class="cancel-radio-wrap" v-if="confirmPlan.taxRate != 1">
 						<span class="cancel-radio"></span>
 						<span class="cancel-label">税率 {{confirmPlan.taxRate}}</span>
 					</div>
-					<div class="cancel-radio-wrap" v-if="confirmPlan.storeDiscount != -1">
+					<div class="cancel-radio-wrap" v-if="confirmPlan.storeDiscount != 10">
 						<span class="cancel-radio"></span>
 						<span class="cancel-label">店铺折扣 {{confirmPlan.storeDiscount}}折</span>
 					</div>
-					<div class="cancel-radio-wrap" v-if="confirmPlan.mudouDiscount != -1">
+					<div class="cancel-radio-wrap" v-if="confirmPlan.mudouDiscount != 10">
 						<span class="cancel-radio"></span>
 						<span class="cancel-label">木斗工匠折扣 {{confirmPlan.mudouDiscount}}折</span>
 					</div>
@@ -164,7 +164,7 @@ export default {
 		border-bottom: 1px solid #ededed;
 	}
 	.popheight{
-		height: 800upx;
+		max-height: 600upx;
 	}
 	.noborder {
 		margin-top: 30upx;

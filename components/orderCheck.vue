@@ -12,34 +12,34 @@
 					</div>
 				</div>
 			</div>
-			<div class="cancel-statement-wrap" v-if="taxRate != 0">
+			<div class="cancel-statement-wrap" v-if="taxRate != 1">
 				<div class="cancel-radio-wrap">
 					<span class="cancel-radio"></span>
 					<span class="cancel-label">税率 {{taxRate}}</span>
 				</div>
 			</div>
-			<div class="cancel-statement-wrap" v-if="mudouDiscount > 0">
+			<div class="cancel-statement-wrap" v-if="mudouDiscount != 10">
 				<div class="cancel-radio-wrap">
 					<span class="cancel-radio"></span>
 					<span class="cancel-label">木斗工匠折扣 {{mudouDiscount}}</span>
 				</div>
 			</div>
-			<div class="cancel-statement-wrap" v-if="craftsmanDiscount > 0">
+			<div class="cancel-statement-wrap" v-if="craftsmanDiscount != 10">
 				<div class="cancel-radio-wrap">
 					<span class="cancel-radio"></span>
 					<span class="cancel-label">工匠自行打折 {{craftsmanDiscount}}</span>
-				</div>
-			</div>
-			<div class="cancel-statement-wrap">
-				<div class="cancel-radio-wrap">
-					<span class="cancel-radio"></span>
-					<span class="cancel-label">预约金 ¥-{{makePrice}}</span>
 				</div>
 			</div>
 			<div class="cancel-statement-wrap" v-if="totalPrice > 0">
 				<div class="cancel-radio-wrap">
 					<span class="cancel-radio"></span>
 					<span class="cancel-label">合计 ¥{{totalPrice}}</span>
+				</div>
+			</div>
+			<div class="cancel-statement-wrap">
+				<div class="cancel-radio-wrap">
+					<span class="cancel-radio"></span>
+					<span class="cancel-label">预约金 ¥-{{makePrice}}</span>
 				</div>
 			</div>
 		</scroll-view>

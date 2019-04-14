@@ -7,7 +7,7 @@
 		</swiper>
 		<div class="servertype">
 			<div class="serverinf">
-				<div><button type="primary" bindtap="onShareAppMessage" open-type="share" class="shareFriend"></button><image src="../../static/home/share.png"/><span>分享</span></div><div><span>{{serverinf.qualityGuaPeriod}}天无理由退货</span></div>
+				<div><button type="primary" bindtap="onShareAppMessage" open-type="share" class="shareFriend"></button><image src="../../static/home/share.png"/><span>分享</span></div><div><span>{{serverinf.qualityGuaPeriod}}天无理由退换</span></div>
 			</div>
 			<div class="typelist">
 				<div v-for="(list,index) in typelist" :key="index" :class="{'active':typeindex==index}" @click="cg_typeindex(index)">
@@ -66,7 +66,7 @@
 		onLoad(opt) {
 			this.static=ut.static;
 			this.req_detail(opt._id);
-			this.req_comment(opt._id)
+			
 			ut.settitle(opt.title||'服务详情');
 		},
 		methods: {
@@ -124,6 +124,7 @@
 				}).then(data=>{
 					if(data[0]){
 						this.serverinf=data[0]
+						this.req_comment(this.serverinf.id)
 						this.typelist=data;
 						const reg=new RegExp('/attach/download\\?filePath=','g');
 						this.detailinf=marked(data[0].detail.replace(reg,ut.static))

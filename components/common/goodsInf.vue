@@ -9,7 +9,7 @@
 		<div class="mallinf2">
 			<div class="mallinf2price"><span>￥{{goodsInf.mallinf.price}}</span><image src="../../static/close.png" v-if="iii"></image></div>
 			<div>{{goodsInf.clientGoods.name}}</div>
-			<div class="mallinf2s"><span>月销：{{goodsInf.mallinf.sellStock}}笔</span><span @click='cg_pop1'>评价﹀</span><span>质保期:{{goodsInf.clientGoods.qualityGuaPeriod}}天</span></div>
+			<div class="mallinf2s"><span>月销：{{goodsInf.mallinf.sellStock}}笔</span><span @click='cg_pop1'>评价﹀</span><span>{{goodsInf.clientGoods.qualityGuaPeriod}}天无理由退换</span></div>
 		</div>
 		<div class="bggray"></div>
 		<div class="guige">

@@ -15,12 +15,12 @@
 			</p>
 			<p class="tip" @click="go_mine_register">没有账号？立即注册</p>
 		</div>
-		<div class="qlogin">
+<!-- 		<div class="qlogin">
 			<image src="../../static/mine/qlogin.jpg" mode="widthFix"></image>
 			<div>
 				<image src="../../static/mine/wx.jpg"></image>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 

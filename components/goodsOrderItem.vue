@@ -63,7 +63,7 @@
 		</t-modal>
 
 		<t-modal :visibile="confirm_banyun" @changeVisible="changeBanyunModal">
-			<goods-banyun @reload="reloadData" :orderId="data.id" :confirmPlanlist='banyunplan'></goods-banyun>
+			<goods-banyun @reload="reloadData" :orderId="data.id" :confirmPlan='banyunplan'></goods-banyun>
 		</t-modal>
 
 		<t-modal :visibile="confirm_ordercheck_visibile" @changeVisible="changeOrderCheck">
@@ -331,7 +331,8 @@
 	}
 
 	.order-button {
-		width: 160upx;
+		min-width: 120upx;
+		padding: 0 5upx;
 		height: 50upx;
 		background: #fec200;
 		text-align: center;

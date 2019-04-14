@@ -41,7 +41,8 @@ ut.time=function(){
 }
 ut.startTime=function(){
 	let timestamp = new Date().getTime();//当前的时间戳
-	timestamp = timestamp + 2 * 60 * 60 * 1000;
+	// 这里需要多加一分钟，否则2小时判断过不了
+	timestamp = timestamp + 2 * 60 * 60 * 1000 + 60 * 1000;
 	let date = new Date(timestamp);
 	let hour = date.getHours();
 	let minute = date.getMinutes();

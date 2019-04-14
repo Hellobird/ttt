@@ -119,6 +119,9 @@
 						append += item.title + ",";
 					}
 				}
+				if (append.charAt(append.length - 1) == ",") {
+					append = append.substring(0, append.length - 1);
+				}
 				const userinf = wx.getStorageSync('userinf')
 				ut.request({
 					data: {

@@ -40,9 +40,9 @@
 					<button v-if="data.status == 1" @click="goToPay(data.id)" class="order-button order-pay">立即支付</button>
 					<button v-if="data.status == 4" @click="changeConfirmModal(true)" class="order-button">确认报价</button>
 					<button v-if="data.status == 7" @click="changeOrderCheck(true)" class="order-button">验收付款</button>
-					<button v-if="data.status == 8 && !comment" v-bind:disabled="data.showClwc" @click="changeShouhouModal(true)"
+					<button v-if="data.status == 8 && !comment" v-bind:disabled="data.afterSaleStatus != 1" @click="changeShouhouModal(true)"
 					 class="order-button">申请售后</button>
-					<button v-if="data.status == 8 && !comment" v-bind:disabled="!data.showClwc" @click="requestComplete" class="order-button">处理完成</button>
+					<button v-if="data.status == 8 && !comment" v-bind:disabled="data.afterSaleStatus != 3" @click="requestComplete" class="order-button">处理完成</button>
 					<button v-if="data.status == 8 && comment" @click="changeReport(true, 2)" class="order-button">投诉商户</button>
 					<button v-if="data.status == 8 && comment" @click="changeComment(true)" class="order-button">评价</button>
 				</div>
@@ -171,7 +171,7 @@
 			getReasonType() {
 				ut.request({
 					data: {
-						type: this.type
+						type: 1
 					},
 					method: 'get',
 					url: "customze/store/order/cancelReason"
@@ -331,7 +331,8 @@
 	}
 
 	.order-button {
-		width: 130upx;
+		min-width: 120upx;
+		padding: 0 5upx;
 		height: 50upx;
 		padding: 0upx;
 		background: #fec200;
