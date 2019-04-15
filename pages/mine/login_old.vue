@@ -5,10 +5,10 @@
 				<image src="../../static/logo.jpg"></image>
 			</p>
 			<div>
-				<image src="../../static/mine/user.jpg"></image><input type="text" placeholder="请输入手机号" v-model="phone"/>
+				<image src="../../static/mine/user.jpg"></image><input type="text" placeholder="请输入用户名" v-model="username"/>
 			</div>
 			<div>
-				<input type="number" placeholder="请输入验证码" v-model="verifyCode"/><label class="getcode" @click="req_sendCode">{{codemsg}}</label>
+				<image src="../../static/mine/pas.jpg"></image><input type="password" placeholder="请输入密码" v-model="password"/>
 			</div>
 			<p class="submit" @click="req_login">				
 				登录
@@ -30,9 +30,8 @@
 	export default {
 		data() {
 			return {
-				phone:"",
-				verifyCode:"",
-				codemsg:"获取验证码"
+				username:"",
+				password:""
 			}
 		},
 		onLoad() {
@@ -54,16 +53,24 @@
 				})
 			},
 			req_login(){
-				if(!this.phone){
-					ut.totast('请输入手机号');
+				if(!this.username){
+					ut.totast('请输入用户名');
 					return;
 				}
-				if(!ut.checkmobile(this.phone)){
-					ut.totast('请输入正确的手机号');
+				if(!ut.checkUsername(this.username)){
+					ut.totast('请输入正确的用户名');
 					return;
 				}
-				if(!this.verifyCode){
-					ut.totast('请输入验证码');
+				if(this.username.length<4||this.username.length>16){
+					ut.totast('请输入正确的用户名');
+					return;
+				}
+				if(!this.password){
+					ut.totast('请输入密码');
+					return;
+				}
+				if(this.password.length<8||this.password.length>32){
+					ut.totast('请输入正确的密码');
 					return;
 				}
 				wx.login({
@@ -84,36 +91,6 @@
 				})
 				
 				
-			},
-			req_sendCode(){
-				if(this.codemsg!="获取验证码"&&this.codemsg!="重新获取")return;
-				if(!this.phone){
-					ut.totast('请输入手机号');
-					return;
-				}
-				if(!ut.checkmobile(this.phone)){
-					ut.totast('请输入正确的手机号');
-					return;
-				}
-				let codenum=120;
-				let timer=setInterval(()=>{
-					codenum--;
-					this.codemsg=codenum+'s后重新获取';
-					if(codenum==0){
-						clearInterval(timer);
-						this.codemsg="重新获取";
-					}
-				},1000)
-				ut.request({
-					data: {
-						phone:this.userinf.phone
-					},
-					url: "user/sendCode"
-				}).then(data=>{
-				}).catch(data=>{
-					clearInterval(timer);
-					this.codemsg="重新获取";
-				})
 			}
 		}
 	}
@@ -178,17 +155,5 @@
 		display: inline-block;
 		vertical-align: top;
 		margin-top: 50upx;
-	}
-	.getcode{
-		float: right;
-		color: #F6C11B;
-		width: 200upx;
-		text-align: center;
-		border-left: 1px solid #C8C8C8;
-		height: 30upx;
-		line-height: 30upx;
-		margin-top: 45upx;
-		min-height: 30upx;
-		font-size: 24upx;
 	}
 </style>
