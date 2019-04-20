@@ -38,6 +38,7 @@
 				<div class="order-options">
 					<button v-if="data.status <= 8" @click="changeCancelModal(true)" class="order-button">取消订单</button>
 					<button v-if="type == 1" @click="changeStatus(true)" class="order-button">订单状态</button>
+					<button v-if="data.status == 1" @click="goToPay(data.id)" class="order-button order-pay">立即支付</button>
 					<button v-if="data.status == 9" @click="changeConfirmModal(true)" class="order-button">配送议价</button>
 					<button v-if="data.status == 10" @click="yanshousudi()" class="order-button">验收速递</button>
 					<button v-if="data.status == 14" @click="changeBanyunModal(true)" class="order-button">确认搬运议价</button>
@@ -275,7 +276,26 @@
 				if (typeof status != 'undefined') {
 					this.show_status = status;
 				}
-			}
+			},
+			goToPay(orderId) {
+				ut.request({
+					data: {
+						orderId: orderId
+					},
+					url: "goods/order/repayOrder"
+				}).then(data => {
+					ut.pay(data, {
+						complete: (res) => {
+							this.reloadData();
+						},
+						success: () => {
+							ut.totast("操作成功")
+						}
+					})
+			
+					console.log(data)
+				})
+			},
 		}
 	}
 </script>

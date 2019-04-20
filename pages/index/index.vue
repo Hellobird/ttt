@@ -155,7 +155,7 @@
 		width: 180upx;
 		line-height: 60upx;
 		text-align: center;
-		font-size: 22upx;
+		font-size: 26upx;
 		color: white;
 		border-top-right-radius: 30upx;
 		border-bottom-right-radius: 30upx;

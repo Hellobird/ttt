@@ -52,14 +52,15 @@
 				this.init();
 			},
 			show() {
-				if (this.show && wx.getStorageSync('token')) {
-					this.init();
+				if (this.show) {
+					if (wx.getStorageSync('token')) {
+						this.init();
+					} else {
+						this.order_list = [];
+						this.goods_list = [];
+						this.custom_list = [];
+					}
 				}
-// 				 else {
-// 					this.order_list = [];
-// 					this.goods_list = [];
-// 					this.custom_list = [];
-// 				}
 			}
 		},
 		onLoad(option) {

@@ -15,12 +15,12 @@
 			</p>
 			<p class="tip" @click="go_mine_register">没有账号？立即注册</p>
 		</div>
-<!-- 		<div class="qlogin">
+		<div class="qlogin" @click="loginWithWechat">
 			<image src="../../static/mine/qlogin.jpg" mode="widthFix"></image>
 			<div>
 				<image src="../../static/mine/wx.jpg"></image>
 			</div>
-		</div> -->
+		</div>
 	</div>
 </template>
 
@@ -69,12 +69,7 @@
 				wx.login({
 					success: data => {
 						ut.request({
-							data: {
-								username:this.username,
-								password:this.password,
-								code:data.code
-							},
-							url: "user/login"
+							url: `user/phoneLogin?phone=${this.phone}&vCode=${this.verifyCode}`
 						}).then(data=>{
 							wx.setStorageSync('token',data.token)
 							wx.navigateBack()
@@ -106,7 +101,7 @@
 				},1000)
 				ut.request({
 					data: {
-						phone:this.userinf.phone
+						phone:this.phone
 					},
 					url: "user/sendCode"
 				}).then(data=>{
@@ -114,7 +109,39 @@
 					clearInterval(timer);
 					this.codemsg="重新获取";
 				})
-			}
+			},
+			loginWithWechat(){
+				wx.login({
+					success(res) {
+						if(res.code){
+							wx.request({
+								url: `${ut.url}user/loginByWeChat?code=${res.code}`,
+								method: "POST",
+								success(res) {
+									if(res.data && res.data.code == 0 && res.data.data.token){
+										wx.setStorageSync('token',res.data.data.token);
+										wx.navigateBack()
+									} else {
+										wx.navigateBack();
+										wx.navigateTo({
+											url: '../mine/bindPhone'
+										})
+									}
+								},
+								fail() {
+									wx.showToast({
+										title: '网络繁忙',
+										icon: 'none',
+										color: 'red',
+										duration: 2000
+									})
+								}
+							});
+						}
+					}
+				})
+			},
+			
 		}
 	}
 </script>

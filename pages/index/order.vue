@@ -186,6 +186,15 @@
 		},
 		onShow() {
 			this.show = true;
+			if (!wx.getStorageSync('token')) {
+				for(let typeArray of this.orderTypes){
+					for (let item of typeArray){
+						item.count = 0;
+					}
+				}
+				this.orderTypes = this.orderTypes;
+				return;
+			}
 			this.startAutoRequest();
 		},
 		onHide() {

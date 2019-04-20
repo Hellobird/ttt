@@ -37,8 +37,12 @@
 				this.order_list=[]
 			},
 			show(){
-				if(this.show&&wx.getStorageSync('token')){
-					this.init();
+				if(this.show){
+					if(wx.getStorageSync('token')){
+						this.init();
+					} else {
+						this.order_list = [];
+					}
 				}
 			}
 		},

@@ -16,7 +16,7 @@
 				<order-item :type="type" :data="item" :reason="cancel_reason" :comment="comment" @reload="refresh"></order-item>
 			</div>
 		</div>
-		<div v-else  class="nomall">
+		<div v-else class="nomall">
 			暂无订单
 		</div>
 	</div>
@@ -27,27 +27,32 @@
 	import goodsOrderItem from '../../components/goodsOrderItem.vue'
 	import ut from '../../utils/index.js';
 	export default {
-		props:['type','comment','show','refreshStatus'],
+		props: ['type', 'comment', 'show', 'refreshStatus'],
 		components: {
-            orderItem,
+			orderItem,
 			goodsOrderItem
-        },
+		},
 		data() {
 			return {
 				order_list: [],
 				cancel_reason: [],
-				goods_list:[]
+				goods_list: []
 			}
 		},
-		watch:{
-			type(){
+		watch: {
+			type() {
 				this.init();
-				this.order_list=[]
-				this.goods_list=[]
+				this.order_list = []
+				this.goods_list = []
 			},
-			show(){
-				if(this.show&&wx.getStorageSync('token')){
-					this.init();
+			show() {
+				if (this.show) {
+					if (wx.getStorageSync('token')) {
+						this.init();
+					} else {
+						this.order_list = [];
+						this.goods_list = [];
+					}
 				}
 			}
 		},
@@ -68,16 +73,16 @@
 		},
 		methods: {
 			init() {
-				if(this.comment==2){
+				if (this.comment == 2) {
 					this.getOrderList1();
-				}else{
+				} else {
 					this.getOrderList();
 				}
 			},
 			refresh() {
-				if(this.comment==2){
+				if (this.comment == 2) {
 					this.getOrderList1();
-				}else{
+				} else {
 					this.getOrderList();
 				}
 				this.$emit('refreshStatus');
@@ -89,7 +94,7 @@
 					},
 					method: 'get',
 					url: "service/order/list"
-				}).then(data=>{
+				}).then(data => {
 					console.log(data)
 					this.order_list = data;
 				})
@@ -101,15 +106,15 @@
 					},
 					method: 'get',
 					url: "goods/order/goodsOrderList"
-				}).then(data=>{
+				}).then(data => {
 					console.log(data)
-					data.forEach(item=>{
-						item.orderGoods.forEach(item=>{
-							if(item.picture)item.picture=item.picture.split(',')[0];
+					data.forEach(item => {
+						item.orderGoods.forEach(item => {
+							if (item.picture) item.picture = item.picture.split(',')[0];
 						})
 					})
 					// 返回数据与当前数据相同，不处理
-					if(JSON.stringify(data) == JSON.stringify(this.goods_list)){
+					if (JSON.stringify(data) == JSON.stringify(this.goods_list)) {
 						return;
 					}
 					this.goods_list = data;
@@ -126,6 +131,7 @@
 		box-sizing: border-box;
 		padding: 30upx;
 	}
+
 	.order-tip-text {
 		font-size: 20upx;
 		color: #656565;
@@ -133,6 +139,7 @@
 		padding-left: 40upx;
 		position: relative;
 	}
+
 	.order-tip-text:before {
 		content: '';
 		display: inline-block;
@@ -145,7 +152,8 @@
 		left: 0upx;
 		margin-top: -8upx;
 	}
-	.nomall{
+
+	.nomall {
 		height: 300px;
 		line-height: 300px;
 		text-align: center;
