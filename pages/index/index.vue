@@ -12,6 +12,7 @@
 		<Servers :list="recomlist"></Servers>
 		<div class="title1 bg1" v-if="newlist.length">最新优惠</div>
 		<Servers :list="newlist"></Servers>
+		<div class="mask" catchtouchmove="true"></div>
 	</view>
 </template>
 
@@ -24,44 +25,44 @@
 	export default {
 		data() {
 			return {
-				static:'',
-				swipeList: wx.getStorageSync('banderindex')||[],
+				static: '',
+				swipeList: wx.getStorageSync('banderindex') || [],
 				newlist: [],
 				recomlist: [],
-				classlist:[],
-				provinceName:'',
-				countyAreaName:'',
-				cityName:'通州'
+				classlist: [],
+				provinceName: '',
+				countyAreaName: '',
+				cityName: '通州'
 			}
 		},
-		components:{
+		components: {
 			Banner,
 			SearchBox,
 			ServerType,
 			Servers
 		},
 		onLoad() {
-			this.static=ut.static;
+			this.static = ut.static;
 		},
 		onShow() {
 			const reload = ut.checkPageTime('index_index_time');
-			if(!this.newlist.length||reload){
+			if (!this.newlist.length || reload) {
 				this.req_new();
 			}
-			if(!this.recomlist.length||reload){
+			if (!this.recomlist.length || reload) {
 				this.req_recom();
 			}
-			if(!this.classlist.length||reload){
+			if (!this.classlist.length || reload) {
 				this.req_class();
 			}
-			if(!this.swipeList.length||reload){
+			if (!this.swipeList.length || reload) {
 				this.req_banner();
 			}
 		},
 		onShareAppMessage() {
 			var that = this;
 			return {
-				title:'',
+				title: '',
 				success: (res) => {
 					console.log("转发成功", res);
 				},
@@ -71,87 +72,89 @@
 			}
 		},
 		methods: {
-			go_home_reform(){
+			go_home_reform() {
 				wx.navigateTo({
 					url: '../home/reform'
 				})
 			},
-			go_home_reform1(){
+			go_home_reform1() {
 				wx.navigateTo({
 					url: '../home/reform1'
 				})
 			},
-			req_class(){
+			req_class() {
 				ut.request({
 					data: {
-						parentid:0
+						parentid: 0
 					},
 					url: "service/class"
-				}).then(data=>{
-					this.classlist=data;
+				}).then(data => {
+					this.classlist = data;
 				})
 			},
-			req_new(){
+			req_new() {
 				ut.request({
 					data: {
-						parentid:0
+						parentid: 0
 					},
 					url: "service/newlist"
-				}).then(data=>{
-					this.newlist=data
+				}).then(data => {
+					this.newlist = data
 				})
 			},
-			req_recom(){
+			req_recom() {
 				ut.request({
 					data: {
-						parentid:0
+						parentid: 0
 					},
 					url: "service/recommendlist"
-				}).then(data=>{
-					this.recomlist=data
+				}).then(data => {
+					this.recomlist = data
 				})
 			},
-			req_banner(){
+			req_banner() {
 				ut.request({
-					allurl: ut.uploadimgurl+"common/banner",
-					data:{type:2},
-					method:'GET'
-				}).then(data=>{
+					allurl: ut.uploadimgurl + "common/banner",
+					data: {
+						type: 2
+					},
+					method: 'GET'
+				}).then(data => {
 					console.log(data);
-					this.swipeList=data;
-					wx.setStorageSync('banderindex',this.swipeList);
+					this.swipeList = data;
+					wx.setStorageSync('banderindex', this.swipeList);
 				})
 			},
 			//打开授权
-			opensetting(){
+			opensetting() {
 				this.wxgetlocation()
 			},
 			wxgetlocation() {
 				wx.authorize({
-				scope: "scope.userLocation",
-				success:function(){
-					wx.getLocation({
-						type: 'wgs84',
-						success: function(res) {
-							console.log(res)
-							const latitude = res.latitude;
-							const longitude = res.longitude;
-							const speed = res.speed;
-							const accuracy = res.accuracy;
-						}
-					})
-				},
-				fail(){
-					ut.totast('获取地址失败');
-				}
-			})
+					scope: "scope.userLocation",
+					success: function() {
+						wx.getLocation({
+							type: 'wgs84',
+							success: function(res) {
+								console.log(res)
+								const latitude = res.latitude;
+								const longitude = res.longitude;
+								const speed = res.speed;
+								const accuracy = res.accuracy;
+							}
+						})
+					},
+					fail() {
+						ut.totast('获取地址失败');
+					}
+				})
 			}
 		}
 	}
 </script>
 
 <style>
-	.title1{
+	.title1 {
 		width: 180upx;
 		line-height: 60upx;
 		text-align: center;
@@ -160,19 +163,23 @@
 		border-top-right-radius: 30upx;
 		border-bottom-right-radius: 30upx;
 	}
-	.bg0{
+
+	.bg0 {
 		background: linear-gradient(#ff9836, #ffb169);
 	}
-	.bg1{
+
+	.bg1 {
 		background: linear-gradient(#60ced0, #75d6db);
 		margin-top: 34.5upx;
 	}
-	.buju{
+
+	.buju {
 		position: relative;
 		margin-bottom: 23.5upx;
 		margin-top: 27upx;
 	}
-	.buju button{
+
+	.buju button {
 		position: absolute;
 		background: transparent;
 		width: 122upx;
@@ -180,13 +187,29 @@
 		left: 128upx;
 		border: none;
 	}
-	.buju button:nth-child(2){
+
+	.buju button:nth-child(2) {
 		right: 128upx;
 		left: inherit;
 	}
-	.buju button:after{border: none;}
-	.buju image{
+
+	.buju button:after {
+		border: none;
+	}
+
+	.buju image {
 		width: 100%;
 		display: block;
+	}
+
+	.mask {
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		overflow: hidden;
+		background: rgba(100,100,100,0.3);
+		z-index: 999;
+		top: 0;
+		left: 0;
 	}
 </style>

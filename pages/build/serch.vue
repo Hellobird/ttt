@@ -5,6 +5,7 @@
 			 v-model="name" confirm-type='search' @confirm='req_goodslist' />
 		</div>
 		<nav>
+			<span style="color: #000000">筛选</span>
 			<span @click="onSortClick('monthSell')">销量{{sortField == 'monthSell' ? (sortType == 1 ? '↑':'↓') : ''}}</span>
 			<span @click="onSortClick('price')">价格{{sortField == 'price' ? (sortType == 1 ? '↑':'↓') : ''}}</span>
 		</nav>
@@ -23,8 +24,8 @@
 								<image class="goods_img" :src="static + goods.picture"></image>
 								<div class="goods_intro">
 									<p>{{goods.name ? goods.name : "--"}}</p>
-									<p>月销{{goods.monthSell}}笔</p>
-									<p style="color: #FEC300;">¥{{goods.price ? goods.price : "  "}}起</p>
+									<!-- <p>月销{{goods.monthSell}}笔</p> -->
+									<p style="color: #FEC300;">¥{{goods.price ? goods.price : "  "}}</p>
 								</div>
 							</div>
 						</scroll-view>
@@ -117,7 +118,7 @@
 	}
 
 	nav span {
-		margin-left: 152upx;
+		margin-left: 80upx;
 		display: inline-block;
 		vertical-align: top;
 		color: #FEC300;
@@ -189,28 +190,26 @@
 	}
 
 	.goods_img {
-		width: 80upx;
-		height: 70upx;
+		width: 120upx;
+		height: 100upx;
 		background: #EFEFEF;
 	}
 
 	.goodslist .goodsinf {
-		height: 70upx;
 		width: 280upx;
 		display: inline-flex;
-		flex-direction: row;
+		flex-direction: column;
 	}
 
 	.goods_intro {
 		height: 100%;
-		margin-left: 10upx;
 	}
 
 	.goods_intro p {
-		height: 33.3%;
+		margin-top: 10upx;
 		overflow: hidden;
 		white-space: nowrap;
 		text-overflow: ellipsis;
-		font-size: 16upx;
+		font-size: 20upx;
 	}
 </style>

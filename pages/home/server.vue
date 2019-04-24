@@ -87,7 +87,7 @@
 		flex-wrap: wrap;
 	}
 	.yiji span{
-		font-size: 24rpx;
+		font-size: 30rpx;
 		border-bottom: 10rpx solid #e5e5e5;
 		width: 150rpx;
 		margin-left: 120rpx;
@@ -116,7 +116,7 @@
 		line-height: 60rpx;
 		font-size: 30rpx;
 		width: 250rpx;
-		font-size: 20rpx;
+		font-size: 28rpx;
 		text-align: center;
 		color: white;
 		border-radius: 10rpx;

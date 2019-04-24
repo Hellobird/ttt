@@ -7,7 +7,7 @@
 		</swiper>
 		<div class="servertype">
 			<div class="serverinf">
-				<div><button type="primary" bindtap="onShareAppMessage" open-type="share" class="shareFriend"></button><image src="../../static/home/share.png"/><span>分享</span></div><div><span>{{serverinf.qualityGuaPeriod}}天无理由退换</span></div>
+				<div><button type="primary" bindtap="onShareAppMessage" open-type="share" class="shareFriend"></button><image src="../../static/home/share.png"/><span>分享</span></div><div><span>质保期:{{serverinf.qualityGuaPeriod}}天</span></div>
 			</div>
 			<div class="typelist">
 				<div v-for="(list,index) in typelist" :key="index" :class="{'active':typeindex==index}" @click="cg_typeindex(index)">
@@ -25,7 +25,7 @@
 			<div class="gobuild">
 				<span @click='back_index_build'>建材城</span>
 			</div>
-			<div class="tip">以上标准价格为上门费，如需材料请点击建材城</div>
+			<div class="tip">以上标准价格为人工费，如需材料请点击建材城</div>
 		</div>
 		<div class="bggray"></div>
 		<div v-if='serverinf.detail' class="detail">

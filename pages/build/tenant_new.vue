@@ -54,6 +54,9 @@
 			<span class="mallnum" v-show='otherGoods.num'>{{otherGoods.num}}</span>
 			<image src="../../static/logo.jpg" class="logo" @click="cg_pop"></image><span class="money" v-show='otherGoods.num'>￥{{otherGoods.price}}</span>
 		</div>
+		<div v-if="goodsInf" class="pop">
+			<GoodsInf :goodsInf='goodsInf' :comlist='comlist' @onClose='onClose'></GoodsInf>
+		</div>
 		<div class="pop" v-if='pop' @click="cg_pop">
 			<div class="popcont">
 				<div class='delbar' @click.stop='cleanbar'>
@@ -71,9 +74,7 @@
 				</scroll-view>
 			</div>
 		</div>
-		<div v-if="goodsInf" class="pop">
-			<GoodsInf :goodsInf='goodsInf' :comlist='comlist' @onClose='onClose'></GoodsInf>
-		</div>
+
 	</div>
 </template>
 
@@ -156,7 +157,7 @@
 				if (!this.pop && !this.otherGoods.num) {
 					return;
 				}
-				this.goodsInf = ''
+				// this.goodsInf = ''
 				this.pop = !this.pop;
 			},
 			go_build_mallinf(goods) {

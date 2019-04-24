@@ -19,7 +19,7 @@
 			<!-- </scroll-view> -->
 
 		</div>
-
+		
 		<!-- <div class='userinf'>
 			<h1>技术服务类</h1>
 			<div class='server'>
@@ -290,10 +290,12 @@
 	.orderType {
 		display: flex;
 		justify-content: center;
-		padding: 0 30rpx;
 		position: fixed;
 		top: 0upx;
+		padding-left: 80rpx;
+		padding-right: 30rpx;
 		width: 100%;
+		box-sizing: border-box;
 		height: 100upx;
 		background: #FFFFFF;
 		z-index: 999;
@@ -301,9 +303,10 @@
 
 	.orderType div {
 		font-size: 26rpx;
-		margin-left: 30rpx;
-		width: 104rpx;
-		padding: 21rpx 23rpx 10rpx;
+		margin:0px auto;
+		width: 144rpx;
+		box-sizing: border-box;
+		padding: 21rpx 10rpx;
 		border-bottom: 8rpx solid #DADADA;
 		text-align: center;
 		color: #000000;

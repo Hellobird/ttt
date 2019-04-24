@@ -49,7 +49,7 @@
 
 <style scoped="true">
 	.header{
-		padding: 20upx 26.5upx 28upx 24.5upx;
+		padding: 20upx 37upx 28upx 24.5upx;
 		background: #FEC200;
 		height: 70upx;
 		display: flex;
@@ -58,7 +58,7 @@
 		color: white;
 	}
 	.header .tel{
-		padding: 0 0 0 67upx;
+		padding: 0 0 0 37upx;
 	}
 	.header .tel image{
 		width: 50upx;
@@ -82,14 +82,22 @@
 	}
 	.header .adress{
 		font-size: 30upx;
-		line-height: 70upx;
-		padding: 0 27.5upx 0 0;
+		height: 70upx;
+		flex-direction: row;
+		display: flex;
 		position: relative;
 	}
 	.header .adress image{
+		display: inline-block;
 		width: 20upx;
 		height: 30upx;
-		margin-right: 24upx;
+		margin-top: 20upx;
+		margin-right: 15upx;
+	}
+	.header span{
+		display: inline-block;
+		line-height: 70upx;
+		margin-right: 20upx;
 	}
 	.server{
 		padding: 0 26.5upx;

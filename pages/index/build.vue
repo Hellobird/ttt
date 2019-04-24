@@ -144,15 +144,15 @@
 	}
 
 	.title span{
-		width: 123upx;
-		font-size: 18upx;
+		width: 166upx;
+		font-size: 24upx;
 		text-align: center;
 		color: white;
 		border-radius: 16.5upx;
 		margin-left: 30upx;
 		margin-right: 30upx;
-		height: 33rpx;
-		line-height: 33rpx;
+		height: 43rpx;
+		line-height: 43rpx;
 	}
 	.title image{
 		width: 87rpx;

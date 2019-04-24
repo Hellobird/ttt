@@ -54,7 +54,7 @@
 				</view>
 			</p>
 			<p class="louceng" v-if="carrylist.length&&requireCarry==1">
-				<input placeholder="请输入楼层" v-model="floor" type="number"/>层 起步价¥{{carrylist[carryindex].startPrice}}
+				<input placeholder="请输入楼层" v-model="floor" type="number"/><span>层 起步价¥{{carrylist[carryindex].startPrice}}</span>
 			</p>
 			<p>50kg以下电梯7层以内包括7层免费搬运上门</p>
 		</div>
@@ -279,6 +279,9 @@
 	.louceng input{
 		border: 1px solid #999999;
 		border-radius: 10upx;
+	}
+	.louceng span{
+		margin-left: 10upx;
 	}
 	.floor view{
 		display: flex;

@@ -230,7 +230,7 @@
 	.shopping-option-item {
 		display: inline-block;
 		height: 50upx;
-		padding: 0 25upx;
+		padding: 0 50upx;
 		border: 1px solid #fe0100;
 		border-radius: 25upx;
 		color: #fe0100;
@@ -238,7 +238,7 @@
 		font-size: 24upx;
 	}
 	.shopping-collect {
-		margin-right: 10upx;
+		margin-right: 30upx;
 		border-color: #e9bb27;
 		color: #e9bb27;
 	}
