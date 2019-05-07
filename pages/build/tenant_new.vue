@@ -134,7 +134,18 @@
 			
 		},
 		onUnload() {
-
+			let selectedGoodsArray = [];
+			for (let item of this.goods) {
+				for (let guige of item.guigetype) {
+					if (guige.num > 0) {
+						selectedGoodsArray.push({
+							id: guige.id,
+							num: guige.num
+						})
+					}
+				}
+			}
+			console.log(selectedGoodsArray);
 		},
 		methods: {
 			scroll: function(e) {
@@ -165,9 +176,6 @@
 				this.pop = !this.pop;
 			},
 			go_build_mallinf(goods) {
-				/* wx.navigateTo({
-					url: `../build/mallinf?_id=${id}`
-				}) */
 				if (goods.type == 1) { // 普通商品
 					this.req_detail(goods.id)
 					this.req_comment(goods.id)
@@ -175,17 +183,6 @@
 					wx.navigateTo({
 						url: `../build/custominf?_id=${goods.id}&&title=${goods.name}`
 					})
-					// 不清楚详情什么样，这里先直接跳到确认订单
-// 					wx.setStorageSync('custominf',goods)
-// 					if(wx.getStorageSync('token')){
-// 						wx.navigateTo({
-// 							url: '../build/custom_pay'
-// 						})
-// 					}else{
-// 						wx.navigateTo({
-// 							url: '../mine/login'
-// 						})
-// 					}
 				}
 			},
 			minus(_index, index) {
