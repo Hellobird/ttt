@@ -1,15 +1,22 @@
 <template>
 	<div class="header">
 		<div class="adress">
-			<!-- <picker mode="region"  value="请选择所在城市" :custom-item="customItem" class='regionpicker'  v-if="!disabled" @change="bindRegionChange">
+			<picker mode="region"  value="请选择所在城市" :custom-item="customItem" class='regionpicker'  v-if="!disabled" @change="bindRegionChange">
 							<view class="picker">
 								{{provinceName||''}}，{{countyAreaName||''}}，{{cityName||''}}
 							</view>
-			</picker> -->
+			</picker>
 			<image src="../../static/index/whiteadress.jpg" ></image><span @click="totast">{{cityName||'通州'}}</span>
 		</div>
 		<div class='serch' @click="goSearch"><span>{{text}}</span><image src="../../static/index/serch.png" ></image></div>
 		<div class="tel"><image src="../../static/index/whitetel.jpg" @click="call"></image></div>
+		<div class="mask" catchtouchmove="true" v-if="cityName != '通州'">
+			<div class="mask_content">
+				<div>目前只开放通州地区</div>
+				<div class="mask_button" @click="cityName = '通州'">返回通州地区</div>
+			</div>
+		</div>
+		
 	</div>
 </template>
 
@@ -42,7 +49,8 @@
 			},
 			totast(){
 				ut.totast('现在只开通通州的服务，其他区域敬请期待！')
-			}
+			},
+			
 		}
 	}
 </script>
@@ -185,5 +193,34 @@
 		width: 100%;
 		height: 334upx;
 		display: block;
+	}
+	
+	.mask {
+		display: flex;
+		width: 100%;
+		height: 100%;
+		position: fixed;
+		overflow: hidden;
+		background: rgba(100,100,100,0.8);
+		z-index: 999;
+		top: 0;
+		left: 0;
+		
+	}
+	
+	.mask .mask_content{
+		align-items: center;
+		margin: auto;
+		display: flex;
+		flex-direction: column;
+		align-content: center;
+	}
+	
+	.mask .mask_button{
+		margin-top: 20rpx;
+		border: 1px solid #ffffff;
+		padding: 10rpx 20rpx;
+		font-size: 28rpx;
+		border-radius: 5rpx;
 	}
 </style>

@@ -1,292 +1,275 @@
 {
-	"pages": [
-		//pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
-		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "首页"
-			}
-		},
-		{
-			"path": "pages/index/build",
-			"style": {
-				"navigationBarTitleText": "建材城"
-			}
-		},
-		{
-			"path": "pages/index/order",
-			"style": {
-				"navigationBarTitleText": "订单"
-			}
-		},
-		{
-			"path": "pages/index/shopcart",
-			"style": {
-				"navigationBarTitleText": "购物车"
-			}
-		},
-		{
-			"path": "pages/index/mine",
-			"style": {
-				"navigationBarTitleText": "我的"
-			}
-		},
-		{
-			"path": "pages/build/build2",
-			"style": {
-				"navigationBarTitleText": "建材城"
-			}
-		},
-		{
-			"path": "pages/build/serch",
-			"style": {
-				"navigationBarTitleText": "建材城"
-			}
-		},
-		{
-			"path": "pages/build/mallinf",
-			"style": {
-				"navigationBarTitleText": "建材城"
-			}
-		},
-		{
-			"path": "pages/build/tenant",
-			"style": {
-				"navigationBarTitleText": "建材城"
-			}
-		},
-		{
-			"path": "pages/build/tenant_new",
-			"style": {
-				"navigationBarTitleText": "建材城"
-			}
-		},
-		{
-			"path": "pages/build/pay",
-			"style": {
-
-				"navigationBarTitleText": "确认订单"
-			}
-		},
-		{
-			"path": "pages/mine/infchange",
-			"style": {
-
-				"navigationBarTitleText": "信息修改"
-			}
-		},
-		{
-			"path": "pages/mine/updatephone",
-			"style": {
-
-				"navigationBarTitleText": "换绑手机"
-			}
-		},
-		{
-			"path": "pages/mine/login",
-			"style": {
-
-				"navigationBarTitleText": "登录"
-			}
-		},
-		{
-			"path": "pages/mine/register",
-			"style": {
-
-				"navigationBarTitleText": "注册"
-			}
-		},
-		{
-			"path": "pages/mine/apply",
-			"style": {
-
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/mine/userinf",
-			"style": {
-
-				"navigationBarTitleText": "个人信息"
-			}
-		},
-		{
-			"path": "pages/mine/adress",
-			"style": {
-
-				"navigationBarTitleText": "管理地址"
-			}
-		},
-		{
-			"path": "pages/mine/updatepass",
-			"style": {
-
-				"navigationBarTitleText": "修改密码"
-			}
-		},
-		{
-			"path": "pages/mine/addadress",
-			"style": {
-
-				"navigationBarTitleText": "新建收货地址"
-			}
-		},
-		{
-			"path": "pages/mine/updatename",
-			"style": {
-
-				"navigationBarTitleText": "修改昵称"
-			}
-		},
-		{
-			"path": "pages/mine/securityCenter",
-			"style": {
-
-				"navigationBarTitleText": "安全中心"
-			}
-		},
-		{
-			"path": "pages/mine/problem",
-			"style": {
-
-				"navigationBarTitleText": "常见问题"
-			}
-		},
-		{
-			"path": "pages/mine/aboutus",
-			"style": {
-
-				"navigationBarTitleText": "关于我们"
-			}
-		},
-		{
-			"path": "pages/home/server",
-			"style": {
-
-				"navigationBarTitleText": "补漏疏通"
-			}
-		},
-		{
-			"path": "pages/home/serverinf",
-			"style": {
-
-				"navigationBarTitleText": "服务详情"
-			}
-		},
-		{
-			"path": "pages/home/serch",
-			"style": {
-
-				"navigationBarTitleText": "搜索"
-			}
-		},
-		{
-			"path": "pages/home/reform",
-			"style": {
-
-				"navigationBarTitleText": "局部改造"
-			}
-		},
-		{
-			"path": "pages/home/remake",
-			"style": {
-
-				"navigationBarTitleText": "立即预约"
-			}
-		},
-		{
-			"path": "pages/home/reform1",
-			"style": {
-
-				"navigationBarTitleText": "整体改造"
-			}
-		},
-		{
-			"path": "pages/home/pay",
-			"style": {
-
-				"navigationBarTitleText": "确认订单"
-			}
-		},
-		{
-			"path": "pages/order/checkOrder",
-			"style": {
-
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/order/buildingGoods",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/build/custominf",
-			"style": {
-				"navigationBarTitleText": "订制商品详情"
-			}
-		},
-		{
-			"path": "pages/build/custom_pay",
-			"style": {
-				"navigationBarTitleText": "确认订单"
-			}
-		},
-		{
-			"path": "pages/order/customOrder",
-			"style": {
-				"navigationBarTitleText": "查看订单"
-			}
-		},
-		{
-			"path": "pages/mine/bindPhone",
-			"style": {
-				"navigationBarTitleText": "绑定手机"
-			}
-		}
-	],
-	"globalStyle": {
-		"navigationBarTextStyle": "white",
-		"navigationBarTitleText": "木斗生活",
-		"navigationBarBackgroundColor": "#FEC300",
-		"backgroundColor": "#FEC300"
-	},
-	"tabBar": {
-		"color": "#666666",
-		"selectedColor": "#FEC300",
-		"borderStyle": "black",
-		"backgroundColor": "#ffffff",
-		"list": [{
-				"pagePath": "pages/index/index",
-				"text": "首页",
-				"iconPath": "static/tabbar0.png",
-				"selectedIconPath": "static/_tabbar0.png"
-			},
-			{
-				"pagePath": "pages/index/build",
-				"text": "建材城",
-				"iconPath": "static/tabbar1.png",
-				"selectedIconPath": "static/_tabbar1.png"
-			},
-			{
-				"pagePath": "pages/index/order",
-				"text": "全部订单",
-				"iconPath": "static/tabbar2.png",
-				"selectedIconPath": "static/_tabbar2.png"
-			},
-			{
-				"pagePath": "pages/index/shopcart",
-				"text": "购物车",
-				"iconPath": "static/tabbar3.png",
-				"selectedIconPath": "static/_tabbar3.png"
-			},
-			{
-				"pagePath": "pages/index/mine",
-				"text": "我的",
-				"iconPath": "static/tabbar4.png",
-				"selectedIconPath": "static/_tabbar4.png"
-			}
-		]
-	}
+    "pages" : [
+        //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+        {
+            "path" : "pages/index/index",
+            "style" : {
+                "navigationBarTitleText" : "首页"
+            }
+        },
+        {
+            "path" : "pages/index/build",
+            "style" : {
+                "navigationBarTitleText" : "建材城"
+            }
+        },
+        {
+            "path" : "pages/index/order",
+            "style" : {
+                "navigationBarTitleText" : "订单"
+            }
+        },
+        {
+            "path" : "pages/index/shopcart",
+            "style" : {
+                "navigationBarTitleText" : "购物车"
+            }
+        },
+        {
+            "path" : "pages/index/mine",
+            "style" : {
+                "navigationBarTitleText" : "我的"
+            }
+        },
+        {
+            "path" : "pages/build/build2",
+            "style" : {
+                "navigationBarTitleText" : "建材城"
+            }
+        },
+        {
+            "path" : "pages/build/serch",
+            "style" : {
+                "navigationBarTitleText" : "建材城"
+            }
+        },
+        {
+            "path" : "pages/build/mallinf",
+            "style" : {
+                "navigationBarTitleText" : "建材城"
+            }
+        },
+        {
+            "path" : "pages/build/tenant",
+            "style" : {
+                "navigationBarTitleText" : "建材城"
+            }
+        },
+        {
+            "path" : "pages/build/tenant_new",
+            "style" : {
+                "navigationBarTitleText" : "建材城"
+            }
+        },
+        {
+            "path" : "pages/build/pay",
+            "style" : {
+                "navigationBarTitleText" : "确认订单"
+            }
+        },
+        {
+            "path" : "pages/mine/infchange",
+            "style" : {
+                "navigationBarTitleText" : "信息修改"
+            }
+        },
+        {
+            "path" : "pages/mine/updatephone",
+            "style" : {
+                "navigationBarTitleText" : "换绑手机"
+            }
+        },
+        {
+            "path" : "pages/mine/login",
+            "style" : {
+                "navigationBarTitleText" : "登录"
+            }
+        },
+        {
+            "path" : "pages/mine/register",
+            "style" : {
+                "navigationBarTitleText" : "注册"
+            }
+        },
+        {
+            "path" : "pages/mine/apply",
+            "style" : {
+                "navigationBarTitleText" : ""
+            }
+        },
+        {
+            "path" : "pages/mine/userinf",
+            "style" : {
+                "navigationBarTitleText" : "个人信息"
+            }
+        },
+        {
+            "path" : "pages/mine/adress",
+            "style" : {
+                "navigationBarTitleText" : "管理地址"
+            }
+        },
+        {
+            "path" : "pages/mine/updatepass",
+            "style" : {
+                "navigationBarTitleText" : "修改密码"
+            }
+        },
+        {
+            "path" : "pages/mine/addadress",
+            "style" : {
+                "navigationBarTitleText" : "新建收货地址"
+            }
+        },
+        {
+            "path" : "pages/mine/updatename",
+            "style" : {
+                "navigationBarTitleText" : "修改昵称"
+            }
+        },
+        {
+            "path" : "pages/mine/securityCenter",
+            "style" : {
+                "navigationBarTitleText" : "安全中心"
+            }
+        },
+        {
+            "path" : "pages/mine/problem",
+            "style" : {
+                "navigationBarTitleText" : "常见问题"
+            }
+        },
+        {
+            "path" : "pages/mine/aboutus",
+            "style" : {
+                "navigationBarTitleText" : "关于我们"
+            }
+        },
+        {
+            "path" : "pages/home/server",
+            "style" : {
+                "navigationBarTitleText" : "补漏疏通"
+            }
+        },
+        {
+            "path" : "pages/home/serverinf",
+            "style" : {
+                "navigationBarTitleText" : "服务详情"
+            }
+        },
+        {
+            "path" : "pages/home/serch",
+            "style" : {
+                "navigationBarTitleText" : "搜索"
+            }
+        },
+        {
+            "path" : "pages/home/reform",
+            "style" : {
+                "navigationBarTitleText" : "局部改造"
+            }
+        },
+        {
+            "path" : "pages/home/remake",
+            "style" : {
+                "navigationBarTitleText" : "立即预约"
+            }
+        },
+        {
+            "path" : "pages/home/reform1",
+            "style" : {
+                "navigationBarTitleText" : "整体改造"
+            }
+        },
+        {
+            "path" : "pages/home/pay",
+            "style" : {
+                "navigationBarTitleText" : "确认订单"
+            }
+        },
+        {
+            "path" : "pages/order/checkOrder",
+            "style" : {
+                "navigationBarTitleText" : ""
+            }
+        },
+        {
+            "path" : "pages/order/buildingGoods",
+            "style" : {
+                "navigationBarTitleText" : ""
+            }
+        },
+        {
+            "path" : "pages/build/custominf",
+            "style" : {
+                "navigationBarTitleText" : "订制商品详情"
+            }
+        },
+        {
+            "path" : "pages/build/custom_pay",
+            "style" : {
+                "navigationBarTitleText" : "确认订单"
+            }
+        },
+        {
+            "path" : "pages/order/customOrder",
+            "style" : {
+                "navigationBarTitleText" : "查看订单"
+            }
+        },
+        {
+            "path" : "pages/mine/bindPhone",
+            "style" : {
+                "navigationBarTitleText" : "绑定手机"
+            }
+        },
+        {
+            "path" : "pages/statement/statement",
+            "style" : {}
+        }
+    ],
+    "globalStyle" : {
+        "navigationBarTextStyle" : "white",
+        "navigationBarTitleText" : "木斗生活",
+        "navigationBarBackgroundColor" : "#FEC300",
+        "backgroundColor" : "#FEC300"
+    },
+    "tabBar" : {
+        "color" : "#666666",
+        "selectedColor" : "#FEC300",
+        "borderStyle" : "black",
+        "backgroundColor" : "#ffffff",
+        "list" : [
+            {
+                "pagePath" : "pages/index/index",
+                "text" : "首页",
+                "iconPath" : "static/tabbar0.png",
+                "selectedIconPath" : "static/_tabbar0.png"
+            },
+            {
+                "pagePath" : "pages/index/build",
+                "text" : "建材城",
+                "iconPath" : "static/tabbar1.png",
+                "selectedIconPath" : "static/_tabbar1.png"
+            },
+            {
+                "pagePath" : "pages/index/order",
+                "text" : "全部订单",
+                "iconPath" : "static/tabbar2.png",
+                "selectedIconPath" : "static/_tabbar2.png"
+            },
+            {
+                "pagePath" : "pages/index/shopcart",
+                "text" : "购物车",
+                "iconPath" : "static/tabbar3.png",
+                "selectedIconPath" : "static/_tabbar3.png"
+            },
+            {
+                "pagePath" : "pages/index/mine",
+                "text" : "我的",
+                "iconPath" : "static/tabbar4.png",
+                "selectedIconPath" : "static/_tabbar4.png"
+            }
+        ]
+    }
 }

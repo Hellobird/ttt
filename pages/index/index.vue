@@ -12,7 +12,6 @@
 		<Servers :list="recomlist"></Servers>
 		<div class="title1 bg1" v-if="newlist.length">最新优惠</div>
 		<Servers :list="newlist"></Servers>
-		<div class="mask" catchtouchmove="true"></div>
 	</view>
 </template>
 
@@ -200,16 +199,5 @@
 	.buju image {
 		width: 100%;
 		display: block;
-	}
-
-	.mask {
-		width: 100%;
-		height: 100%;
-		position: fixed;
-		overflow: hidden;
-		background: rgba(100,100,100,0.3);
-		z-index: 999;
-		top: 0;
-		left: 0;
 	}
 </style>

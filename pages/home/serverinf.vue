@@ -23,6 +23,7 @@
 				<div>评价（{{comlist.length}}）</div><div><span @click="cg_pop">查看全部</span><image src="../../static/right.jpg" @click="cg_pop"/></div>
 			</div>
 			<div class="gobuild">
+				
 				<span @click='back_index_build'>建材城</span>
 			</div>
 			<div class="tip">以上标准价格为人工费，如需材料请点击建材城</div>
@@ -30,6 +31,17 @@
 		<div class="bggray"></div>
 		<div v-if='serverinf.detail' class="detail">
 			<wxParse :content="detailinf"/>
+			<div class="intro_title">
+				<div class="intro_divider"/>
+				<span>下单提醒</span>
+				<div class="intro_divider"/>
+				<div class="intro_right" @click="clickStatement">
+					<image src="../../static/right_flag.png"/>
+					<div>细则声明</div>
+				</div>
+			</div>
+			<wxParse :content="statement"/>
+			
 		</div>
 		<div style="height: 110rpx;">
 		</div>
@@ -56,7 +68,8 @@
 				serverinf:{},
 				detailinf: '',
 				comlist:[],
-				pop:false
+				pop:false,
+				statement: " " // 这里默认使用空格，否则wxParse会有报错
 			}
 		},
 		components: {
@@ -66,7 +79,7 @@
 		onLoad(opt) {
 			this.static=ut.static;
 			this.req_detail(opt._id);
-			
+			this.req_order_hint();
 			ut.settitle(opt.title||'服务详情');
 		},
 		methods: {
@@ -141,12 +154,29 @@
 						type:2
 					},
 					method:"GET",
-					url: "comment/list"
+					url: "comment/list",
 				}).then(data=>{
 					data.forEach(item=>{
 						item.pictures =item.pictures.split(',')
 					})
 					this.comlist=data
+				})
+			},
+			req_order_hint(){
+				ut.request({
+					data: {
+						type:2
+					},
+					method:"GET",
+					allurl:"https://mdapi.vertxjava.com/api/v1/common/statement"
+				}).then(data => {
+					const reg=new RegExp('/attach/download\\?filePath=','g');
+					this.statement = marked(data.replace(reg,ut.static));
+				})
+			},
+			clickStatement(){
+				wx.navigateTo({
+					url: `../statement/statement?type=1`
 				})
 			}
 		}
@@ -279,5 +309,43 @@
 	}
 	.detail{
 		padding: 0 30upx;
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.intro_title{
+		margin: 0 auto;
+		display: flex;
+		height: 40rpx;
+		line-height: 40rpx;
+		font-size: 28rpx;
+		align-content: center;
+		align-items: center;
+		box-sizing: border-box;
+		flex-direction: row;
+	}
+	
+	.intro_divider{
+		display: inline-block;
+		width: 100rpx;
+		height: 1rpx;
+		margin: 0 10rpx;
+		background: #666666;
+	}
+	
+	.intro_right {
+		position: absolute;
+		right: 10rpx;
+		font-size: 24rpx;
+		line-height: 30rpx;
+		display: inline-flex;
+		flex-direction: row;
+		align-items: center;
+	}
+	
+	.intro_right image{
+		width: 30rpx;
+		height: 30rpx;
+		margin-right: 10rpx;
 	}
 </style>

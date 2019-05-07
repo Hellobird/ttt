@@ -119,7 +119,7 @@
 		onLoad(opt) {
 			this.contentHeight = wx.getSystemInfoSync().windowHeight - uni.upx2px(420);
 
-			this.cleanbar()
+			this.cleanbar();
 			this.tenant = wx.getStorageSync('tenant');
 			ut.settitle(this.tenant.name || '建材城');
 			const length = this.tenant.name.split('').length;
@@ -131,6 +131,10 @@
 			this.req_storeclasslist()
 			this.storePicture = this.static + this.tenant.picture;
 			this.goods_id = opt.goodsId;
+			
+		},
+		onUnload() {
+
 		},
 		methods: {
 			scroll: function(e) {
