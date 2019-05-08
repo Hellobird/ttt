@@ -19,6 +19,9 @@ const store = new Vuex.Store({
 	setGoods: (state, provider) => {
       state.goods = provider
     },
+	setOtherGoods: (state, provider) => {
+	  state.otherGoods = provider;
+	},
 	addOtherGoods: (state, provider) => {
       state.otherGoods.num+=1;
 	  state.otherGoods.price=(Number(state.otherGoods.price)+Number(provider)).toFixed(2);

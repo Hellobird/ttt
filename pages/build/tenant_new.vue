@@ -107,7 +107,7 @@
 				goodsInf: '',
 				storePicture: '',
 				goods_id: '',
-				comlist:[]
+				comlist: []
 			}
 		},
 		components: {
@@ -131,7 +131,7 @@
 			this.req_storeclasslist()
 			this.storePicture = this.static + this.tenant.picture;
 			this.goods_id = opt.goodsId;
-			
+
 		},
 		onUnload() {
 			let selectedGoodsArray = [];
@@ -145,7 +145,11 @@
 					}
 				}
 			}
-			console.log(selectedGoodsArray);
+			// 保存用户选中
+			wx.setStorage({
+				key: `userid_${this.storeid}`,
+				data: selectedGoodsArray
+			})
 		},
 		methods: {
 			scroll: function(e) {
@@ -309,14 +313,49 @@
 					if (data[0]) {
 						this.class_id = data[0].id;
 					}
+					
+					// 反填用户选中
+					let selectedGoodsArray = wx.getStorageSync(`userid_${this.storeid}`);
+					let token = wx.getStorageSync('token');
+					let goods = [];
+					let otherGoods = {};
+					const reg = new RegExp('/attach/download\\?filePath=', 'g');
+
+					for (let goods of goodsArray) {
+						let goodsInf = {};
+						goodsInf.clientGoods = goods;
+						goodsInf.detailinf = marked(goodsInf.clientGoods.detail.replace(reg, ut.static));
+						if (goods.clientGoodsSpecList[0]) {
+							data.clientGoodsSpecList.forEach(item => {
+								if (token && selectedGoodsArray) {
+									for (let selectItem of selectedGoodsArray) {
+										if (item.id == selectItem.id) {
+											item.num = selectItem.num;
+											break;
+										}
+									}
+								}
+								if (!item.num) {
+									item.num = 0;
+								}
+							})
+							goodsInf.mallinf = data.clientGoodsSpecList[0];
+							if (goodsInf.mallinf.picture) {
+								goodsInf.swipeList = goodsInf.mallinf.picture.split(',')
+							} else {
+								goodsInf.swipeList = [goodsInf.clientGoods.picture]
+							}
+						}
+						goods.push(goodsInf)
+					}
+					this.$store.commit('setGoods', goods);
+					this.$store.commit('setGoodsPay');
 				});
 			},
 			req_detail(id) {
-				console.log(this.goods)
 				const goodinf = this.goods.filter(item => {
 					return item.clientGoods.id == id
 				})
-				console.log(goodinf)
 				if (goodinf.length > 0) {
 					this.goodsInf = goodinf[0]
 					return
@@ -327,6 +366,7 @@
 					},
 					url: "goods/goodsdetail"
 				}).then(data => {
+					console.log(data)
 					const goodsInf = {};
 					const reg = new RegExp('/attach/download\\?filePath=', 'g');
 					goodsInf.clientGoods = data.clientGoods;
@@ -354,19 +394,19 @@
 			onClose() {
 				this.goodsInf = ''
 			},
-			req_comment(id){
+			req_comment(id) {
 				ut.request({
 					data: {
-						proId:id,
-						type:1
+						proId: id,
+						type: 1
 					},
-					method:"GET",
+					method: "GET",
 					url: "comment/list"
-				}).then(data=>{
-					data.forEach(item=>{
-						item.pictures =item.pictures.split(',')
+				}).then(data => {
+					data.forEach(item => {
+						item.pictures = item.pictures.split(',')
 					})
-					this.comlist=data;
+					this.comlist = data;
 				})
 			}
 		}
