@@ -134,22 +134,26 @@
 
 		},
 		onUnload() {
-			let selectedGoodsArray = [];
-			for (let item of this.goods) {
-				for (let guige of item.guigetype) {
-					if (guige.num > 0) {
-						selectedGoodsArray.push({
-							id: guige.id,
-							num: guige.num
-						})
+			let userId = wx.getStorageSync('user_id');
+			if (userId) {
+				let selectedGoodsArray = [];
+				for (let item of this.goods) {
+					for (let guige of item.guigetype) {
+						if (guige.num > 0) {
+							selectedGoodsArray.push({
+								id: guige.id,
+								num: guige.num
+							})
+						}
 					}
 				}
+				// 保存用户选中
+				wx.setStorage({
+					key: `${userId}_${this.storeid}`,
+					data: selectedGoodsArray
+				})
 			}
-			// 保存用户选中
-			wx.setStorage({
-				key: `userid_${this.storeid}`,
-				data: selectedGoodsArray
-			})
+			
 		},
 		methods: {
 			scroll: function(e) {
@@ -315,10 +319,13 @@
 					}
 					
 					// 反填用户选中
-					let selectedGoodsArray = wx.getStorageSync(`userid_${this.storeid}`);
-					let token = wx.getStorageSync('token');
-					let goods = [];
-					let otherGoods = {};
+					let userId = wx.getStorageSync('user_id');
+					let selectedGoodsArray = wx.getStorageSync(`${userId}_${this.storeid}`);
+					let goodsList = [];
+					let otherGoods = {
+						num: 0,
+						price: 0
+					};
 					const reg = new RegExp('/attach/download\\?filePath=', 'g');
 
 					for (let goods of goodsArray) {
@@ -326,8 +333,8 @@
 						goodsInf.clientGoods = goods;
 						goodsInf.detailinf = marked(goodsInf.clientGoods.detail.replace(reg, ut.static));
 						if (goods.clientGoodsSpecList[0]) {
-							data.clientGoodsSpecList.forEach(item => {
-								if (token && selectedGoodsArray) {
+							goods.clientGoodsSpecList.forEach(item => {
+								if (userId && selectedGoodsArray) {
 									for (let selectItem of selectedGoodsArray) {
 										if (item.id == selectItem.id) {
 											item.num = selectItem.num;
@@ -337,18 +344,24 @@
 								}
 								if (!item.num) {
 									item.num = 0;
+								} else if(item.num > 0){
+									otherGoods.num += item.num;
+									otherGoods.price = (Number(otherGoods.price) + Number(item.num) * Number(item.price)).toFixed(2);
 								}
 							})
-							goodsInf.mallinf = data.clientGoodsSpecList[0];
+							goodsInf.mallinf = goods.clientGoodsSpecList[0];
 							if (goodsInf.mallinf.picture) {
 								goodsInf.swipeList = goodsInf.mallinf.picture.split(',')
 							} else {
 								goodsInf.swipeList = [goodsInf.clientGoods.picture]
 							}
 						}
-						goods.push(goodsInf)
+						goodsInf.guigetype = goods.clientGoodsSpecList;
+						goodsList.push(goodsInf)
 					}
-					this.$store.commit('setGoods', goods);
+					console.log(otherGoods)
+					this.$store.commit('setGoods', goodsList);
+					this.$store.commit('setOtherGoods',otherGoods);
 					this.$store.commit('setGoodsPay');
 				});
 			},

@@ -72,6 +72,7 @@
 							url: `user/phoneLogin?phone=${this.phone}&vCode=${this.verifyCode}`
 						}).then(data=>{
 							wx.setStorageSync('token',data.token)
+							wx.setStorageSync('user_id',data.userId)
 							wx.navigateBack()
 						})
 						
@@ -120,6 +121,7 @@
 								success(res) {
 									if(res.data && res.data.code == 0 && res.data.data.token){
 										wx.setStorageSync('token',res.data.data.token);
+										wx.setStorageSync('user_id',res.data.data.user_id)
 										wx.navigateBack()
 									} else {
 										wx.navigateBack();
