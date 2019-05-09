@@ -112,6 +112,9 @@
 				})
 			},
 			loginWithWechat(){
+				wx.showLoading({
+					title:'加载中'
+				});
 				wx.login({
 					success(res) {
 						if(res.code){
@@ -119,18 +122,19 @@
 								url: `${ut.url}user/loginByWeChat?code=${res.code}`,
 								method: "POST",
 								success(res) {
+									wx.hideLoading();
 									if(res.data && res.data.code == 0 && res.data.data.token){
 										wx.setStorageSync('token',res.data.data.token);
 										wx.setStorageSync('user_id',res.data.data.user_id)
 										wx.navigateBack()
 									} else {
-										wx.navigateBack();
-										wx.navigateTo({
+										wx.redirectTo({
 											url: '../mine/bindPhone'
 										})
 									}
 								},
 								fail() {
+									wx.hideLoading();
 									wx.showToast({
 										title: '网络繁忙',
 										icon: 'none',

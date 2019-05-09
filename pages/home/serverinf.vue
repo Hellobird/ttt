@@ -40,8 +40,10 @@
 					<div>细则声明</div>
 				</div>
 			</div>
-			<wxParse :content="statement"/>
-			
+			<!-- <wxParse :content="statement"/> -->
+			<div class="cont-tip">
+				<text>{{statement}}</text>
+			</div>
 		</div>
 		<div style="height: 110rpx;">
 		</div>
@@ -170,8 +172,9 @@
 					method:"GET",
 					allurl:"https://mdapi.vertxjava.com/api/v1/common/statement"
 				}).then(data => {
-					const reg=new RegExp('/attach/download\\?filePath=','g');
-					this.statement = marked(data.replace(reg,ut.static));
+					// const reg=new RegExp('/attach/download\\?filePath=','g');
+					// this.statement = marked(data.replace(reg,ut.static));
+					this.statement = data;
 				})
 			},
 			clickStatement(){
@@ -347,5 +350,17 @@
 		width: 30rpx;
 		height: 30rpx;
 		margin-right: 10rpx;
+	}
+	
+	.cont-tip{
+		display:-webkit-box;
+		display:-webkit-flex;
+		display:-ms-flexbox;
+		display:flex;
+		padding:0 30rpx;
+		line-height:40rpx;
+		margin-top:10rpx;
+		font-size:24rpx;
+		margin-bottom:120rpx;
 	}
 </style>

@@ -35,7 +35,6 @@ const store = new Vuex.Store({
 		const goodsPay = []
 		state.goods.map((item)=>{			
 			item.guigetype.map(item1=>{
-				
 				if(item1.num>0){
 					item1.goodsName= item.clientGoods.name
 					goodsPay.push(item1)
