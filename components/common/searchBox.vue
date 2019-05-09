@@ -10,7 +10,7 @@
 		</div>
 		<div class='serch' @click="goSearch"><span>{{text}}</span><image src="../../static/index/serch.png" ></image></div>
 		<div class="tel"><image src="../../static/index/whitetel.jpg" @click="call"></image></div>
-		<div class="mask" catchtouchmove="true" v-if="cityName != '通州'">
+		<div class="mask" catchtouchmove="true" v-if="cityName && cityName != '通州'">
 			<div class="mask_content">
 				<div>目前只开放通州地区</div>
 				<div class="mask_button" @click="cityName = '通州'">返回通州地区</div>
