@@ -134,10 +134,14 @@
 			req_sendCode(){
 				if(this.codemsg!="获取验证码"&&this.codemsg!="重新获取")return;
 				if(!this.userinf.phone){
+					ut.totast('请输入手机号');
+					return;
+				}
+				if(!ut.checkmobile(this.phone)){
 					ut.totast('请输入正确的手机号');
 					return;
 				}
-				let codenum=120;
+				let codenum=60;
 				let timer=setInterval(()=>{
 					codenum--;
 					this.codemsg=codenum+'s后重新获取';

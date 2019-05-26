@@ -91,7 +91,7 @@
 					ut.totast('请输入正确的手机号');
 					return;
 				}
-				let codenum=120;
+				let codenum=60;
 				let timer=setInterval(()=>{
 					codenum--;
 					this.codemsg=codenum+'s后重新获取';

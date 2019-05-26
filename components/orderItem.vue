@@ -32,7 +32,7 @@
 					<button v-if="data.status == 10 && !comment" v-bind:disabled="data.afterSaleStatus != 1" @click="changeShouhouModal(true)" class="order-button">申请售后</button>
 					<button v-if="data.status == 10 && !comment" v-bind:disabled="data.afterSaleStatus != 3"  @click="requestComplete" class="order-button">处理完成</button>
 					
-					<button v-if="data.status == 10 && comment" @click="changeReport(true, 1)" class="order-button">投诉商户</button>
+					<button v-if="data.status == 10 && comment" @click="changeReport(true, 1)" class="order-button">投诉工匠</button>
 					<button v-if="data.status == 10 && comment" @click="changeComment(true)" class="order-button">评价</button>
 					<!-- <button v-if="data.status == 10"  class="order-button order-pay">处理完成</button> -->
 				</div>
