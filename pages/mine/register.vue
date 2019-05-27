@@ -27,7 +27,7 @@
 		<p class="submit">
 			<view  @click="req_register">注册</view>
 		</p>
-		<p class="tip" @click="go_mine_login">已有账号？点击登陆</p>
+		<p class="tip" @click="go_login">已有账号？点击登陆</p>
 	</div>
 
 </template>
@@ -65,6 +65,11 @@
 						url: '../mine/login'
 					})
 				},2000)
+			},
+			go_login(){
+				wx.redirectTo({
+					url: '../mine/login'
+				})
 			},
 			cg_active(){
 				console.log(1)
