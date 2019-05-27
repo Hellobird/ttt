@@ -22,7 +22,7 @@
 			<span>确认密码</span><input type="password" placeholder="请输入确认密码" v-model="userinf.password1" maxlength="32"/>
 		</div>
 		<p class="xieyi">
-			<span :class="{'active':check}" @click="cg_active">●</span><span>我已阅读并同意</span><span>《用户服务协议》</span>
+			<span :class="{'active':check}" @click="cg_active">●</span><span>我已阅读并同意</span><span @click="onUserProtocolClick">《用户服务协议》</span>
 		</p>
 		<p class="submit">
 			<view  @click="req_register">注册</view>
@@ -159,6 +159,11 @@
 				}).catch(data=>{
 					clearInterval(timer);
 					this.codemsg="重新获取";
+				})
+			},
+			onUserProtocolClick(){
+				wx.navigateTo({
+					url:'./userprotocol'
 				})
 			}
 		}

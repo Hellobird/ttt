@@ -226,6 +226,12 @@
         {
             "path" : "pages/statement/statement",
             "style" : {}
+        },
+        {
+            "path" : "pages/mine/userprotocol",
+            "style" : {
+				"navigationBarTitleText" : "用户协议"
+			}
         }
     ],
     "globalStyle" : {
