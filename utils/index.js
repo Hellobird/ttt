@@ -108,13 +108,13 @@ ut.totast=function(title){
 }
 //拨打电话
 ut.call=function(){
-	const callphone=wx.getStorageSync('callphone');
+	/* const callphone=wx.getStorageSync('callphone');
 	if(callphone){
 		wx.makePhoneCall({
 			phoneNumber: callphone
 		})
 		return
-	}
+	} */
 		ut.request({
 			allurl: ut.uploadimgurl+"common/customerPhone",
 			method:'GET'

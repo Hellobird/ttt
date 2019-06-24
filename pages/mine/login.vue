@@ -69,7 +69,7 @@
 				wx.login({
 					success: data => {
 						ut.request({
-							url: `user/phoneLogin?phone=${this.phone}&vCode=${this.verifyCode}`
+							url: `user/phoneLogin?phone=${this.phone}&vCode=${this.verifyCode}&code=${data.code}`
 						}).then(data=>{
 							wx.setStorageSync('token',data.token)
 							wx.setStorageSync('user_id',data.userId)

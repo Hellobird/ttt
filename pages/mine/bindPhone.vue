@@ -87,7 +87,7 @@
 					ut.totast('请输入手机号');
 					return;
 				}
-				if(!ut.checkmobile(this.phone)){
+				if(!ut.checkmobile(this.userinf.phone)){
 					ut.totast('请输入正确的手机号');
 					return;
 				}
