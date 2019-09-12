@@ -1,7 +1,7 @@
 var ut = {};
-ut.url = 'https://mdapi.vertxjava.com/api/v1/client/';
-ut.static = 'https://mdapi.vertxjava.com';
-ut.uploadimgurl = 'https://mdapi.vertxjava.com/api/v1/';
+ut.url = 'https://api.mudoushenghuo.com/api/v1/client/';
+ut.static = 'https://api.mudoushenghuo.com';
+ut.uploadimgurl = 'https://api.mudoushenghuo.com/api/v1/';
 ut.formatTime = function(data) {
 	var year = date.getFullYear();
 	var month = date.getMonth() + 1;

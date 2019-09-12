@@ -170,7 +170,7 @@
 						type:2
 					},
 					method:"GET",
-					allurl:"https://mdapi.vertxjava.com/api/v1/common/statement"
+					allurl: ut.static + "/api/v1/common/statement"
 				}).then(data => {
 					// const reg=new RegExp('/attach/download\\?filePath=','g');
 					// this.statement = marked(data.replace(reg,ut.static));
