@@ -1,7 +1,7 @@
 <template>
 	<div class="fuwu leftright">
 		<div  @click="go_home_serverinf(list.classId,list.name)" v-for="(list,index) in list" :key='index' >
-			<image :src="static +list.picture" class="noimage" mode="top"></image>
+			<image :src="static +list.picture" class="noimage" mode="aspectFill"></image>
 			<p>{{list.name}}：<span class="color">{{list.price}}</span>元起/每次</p>
 		</div>
 	</div>
